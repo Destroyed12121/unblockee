@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z14CF8WQ1J');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineCraft</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        button {
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <button>Play</button>
+    <script>
+        const url = "https://minecraftfrfr.surge.sh";
+        let gameWindow;
+
+        document.querySelector('button').addEventListener('click', () => {
+            if (!gameWindow || gameWindow.closed) {
+                // Open about:blank window
+                gameWindow = window.open('about:blank', '_blank');
+                
+                // Build the content
+                const doc = gameWindow.document;
+                doc.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <style>
+                            body { margin: 0; overflow: hidden; }
+                            object { width: 100vw; height: 100vh; border: none; }
+                        </style>
+                    </head>
+                    <body>
+                        <object data="${url}"></object>
+                    </body>
+                    </html>
+                `);
+                doc.close();
+                
+                // Update button
+                document.querySelector('button').style.background = '#444';
+                document.querySelector('button').textContent = 'Game Open';
+            } else {
+                gameWindow.focus();
+            }
+        });
+    </script>
+</body>
+</html>

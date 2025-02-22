@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z14CF8WQ1J');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unblockee</title>
+  <link rel="preconnect" href="https://info.flagcounter.com">
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at center, 
+        #000000 0%, 
+        #0a0a0a 25%, 
+        #111111 50%, 
+        #1a1a1a 75%, 
+        #222222 100%);
+    }
+
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: moveDot 5s linear infinite;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+    }
+
+    @keyframes moveDot {
+      0% { 
+        transform: translate(50vw, 50vh) scale(1);
+        opacity: 0.8;
+      }
+      100% { 
+        transform: translate(-50vw, -50vh) scale(0);
+        opacity: 0;
+      }
+    }
+
+    h1 { margin-top: 50px; }
+    .game-list { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
+    .row { display: flex; justify-content: center; gap: 20px; }
+    .game { width: 120px; text-align: center; }
+    .game img { width: 100%; border-radius: 10px; transform: translateZ(0); }
+    .game a { color: white; text-decoration: none; }
+    .changelog-tab, .other-tab { position: fixed; bottom: 10px; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 10px 20px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; z-index: 10; text-align: center; text-decoration: none; }
+    .changelog-tab { left: 10px; }
+    .other-tab { left: 130px; }
+    .changelog-tab:hover, .other-tab:hover { background-color: white; color: black; }
+    .changelog-content { position: fixed; bottom: 60px; left: 10px; background-color: rgba(0, 0, 0, 0.9); color: white; font-size: 14px; padding: 15px; width: 250px; height: 200px; border-radius: 10px; display: none; z-index: 10; overflow-y: auto; }
+    .chat-button { background-color: rgba(0, 0, 0, 0.9); color: white; padding: 10px 20px; border-radius: 5px; font-size: 14px; font-weight: bold; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.3s ease; will-change: transform; }
+    
+    
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+  <h1>Unblockee games</h1>
+
+  <div class="game-list">
+    <div class="row">
+      <div class="game">
+        <a href="games/1v1.lolmenu.html">
+          <img src="pictures/1v1.lol.webp" loading="lazy" alt="1v1.lol">
+          <p>1v1.lol</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/RetroBowl.html">
+          <img src="pictures/retrobowl picture.webp" loading="lazy" alt="Retro Bowl">
+          <p>Retro Bowl</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/slope.html">
+          <img src="pictures/slope.webp" loading="lazy" alt="Slope">
+          <p>Slope</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/buildnow.html">
+          <img src="pictures/buildnow.webp" loading="lazy" alt="Buildnow">
+          <p>BuildNow</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/basketrandom.html">
+          <img src="pictures/basketrandom.jpg" loading="lazy" alt="Basket Random">
+          <p>BasketRandom</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/basketballstars.html">
+          <img src="pictures/basketballstars.webp" loading="lazy" alt="Basketball Stars">
+          <p>Basketball Stars</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/Minecraft.html">
+          <img src="pictures/minecraft.webp" loading="lazy" alt="Minecraft">
+          <p>Minecraft</p>
+        </a>
+      </div>
+      <div class="game">
+        <a href="games/territorial.html">
+          <img src="pictures/territorial.jpg" loading="lazy" alt="Territorial.io">
+          <p>Territorial.io</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="changelog-tab">Changelog</div>
+  <a href="other/other.html" class="other-tab">Other</a>
+  
+  <div class="changelog-content" id="changelog-content">
+    <strong>Changelog:</strong>
+    <ul>
+      <li>Date of creation: 1/16/25</li>
+      <li> this prolly version prolly wont be updated</li>
+      <li>W UPDATE ima call this update v0.9</li>
+      <li>All new game links</li>
+      <li>Added 1v1.lol new version</li>
+      <li>Working visits and activity counter</li>
+      <li>Added a proxy (wont work with websites that disabled embeds)</li>
+      <li>Go to unblockee.neocities.org/proxy to use the proxy</li>
+    </ul>
+  </div>
+
+  <div class="chat-container">
+    <a href="chat/chat.html" class="chat-button">Chat</a>
+  </div>
+
+  <a href="https://info.flagcounter.com/4HdR">
+    <img src="https://s11.flagcounter.com/count2/4HdR/bg_000000/txt_FFFFFF/border_FFFFFF/columns_3/maxflags_12/viewers_0/labels_0/pageviews_0/flags_0/%25C0%25B5%25C0%25B5%25C0%25B5/" 
+         alt="" 
+         border="0">
+  </a>
+
+  <script>
+    (function() {
+      const fragment = document.createDocumentFragment();
+      const now = Date.now();
+      
+      for (let i = 0; i < 50; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        dot.style.left = Math.random() * 100 + 'vw';
+        dot.style.top = Math.random() * 100 + 'vh';
+        dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
+        dot.style.animationDelay = -(now * Math.random()) + 'ms';
+        fragment.appendChild(dot);
+      }
+      document.querySelector('.background').appendChild(fragment);
+    })();
+
+    document.querySelector('.changelog-tab').addEventListener('click', function() {
+      const content = document.getElementById('changelog-content');
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    });
+
+    window.addEventListener('scroll', () => {}, { passive: true });
+    
+  </script>
+  <!-- Optimized Chat Button -->
+<div class="chat-container">
+  <a href="chat/chat.html" class="chat-button" aria-label="Open Chat">Chat</a>
+</div>
+
+<style>
+  /* Optimized Chat Button Styling */
+  .chat-container {
+    position: fixed;
+    bottom: 10px;
+    left: 215px;
+    z-index: 10;
+    will-change: transform; /* Optimize for animations */
+  }
+
+  .chat-button {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    will-change: background-color, color; /* Optimize for animations */
+    backface-visibility: hidden; /* Prevent flickering */
+    transform: translateZ(0); /* Promote to GPU layer */
+  }
+
+  .chat-button:hover {
+    background-color: white;
+    color: black;
+  }
+</style>
+<a href="https://info.flagcounter.com/HpnN"><img src="https://s01.flagcounter.com/count/HpnN/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+</body>
+</html>
