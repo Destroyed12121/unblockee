@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unblockee</title>
+  <style>
+    /* General Styles */
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+    }
+
+    h1 {
+      margin-top: 50px;
+    }
+
+    /* Game List Styles */
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .game {
+      width: 120px;
+      text-align: center;
+    }
+
+    .game img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .game a {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Tab and Button Styles */
+    .changelog-tab, .other-tab, .chat-button, .settings-tab {
+      position: fixed;
+      bottom: 10px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .changelog-tab {
+      left: 10px;
+    }
+
+    .other-tab {
+      left: 130px;
+    }
+
+    .chat-button {
+      left: 215px;
+    }
+
+    .settings-tab {
+      bottom: 50px;
+      left: 10px;
+    }
+
+    .changelog-tab:hover, .other-tab:hover, .chat-button:hover, .settings-tab:hover {
+      background-color: white;
+      color: black;
+    }
+
+    /* Changelog Content Styles */
+    .changelog-content {
+      position: fixed;
+      bottom: 60px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      font-size: 14px;
+      padding: 15px;
+      width: 250px;
+      height: 200px;
+      border-radius: 10px;
+      display: none;
+      z-index: 10;
+      overflow-y: auto;
+    }
+
+    .changelog-content ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .changelog-content li {
+      margin-bottom: 10px;
+    }
+
+    /* Settings Overlay Styles */
+    .settings-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .settings-content {
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 15px;
+      padding: 20px;
+      width: 80%;
+      max-width: 500px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .settings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 0 8px;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #333;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #6a1b9a;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Dots Animation Styles */
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: moveDot 5s linear infinite;
+    }
+
+    @keyframes moveDot {
+      0% { transform: translate(50vw, 50vh) scale(1); }
+      100% { transform: translate(-50vw, -50vh) scale(0); }
+    }
+
+    /* Shooting Stars Styles */
+    .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #d8b4fe;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(216, 180, 254, 0.6);
+      animation: shoot 2.5s linear forwards;
+    }
+
+    .shooting-star::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(135deg, rgba(216, 180, 254, 0.8), transparent 90%);
+      transform: rotate(135deg);
+      transform-origin: right center;
+      top: 50%;
+      right: 6px;
+      animation: trail-fade 2.5s linear forwards;
+    }
+
+    @keyframes shoot {
+      0% { transform: translate(120vw, -50vh); opacity: 1; }
+      100% { transform: translate(-40vw, 50vh); opacity: 0; }
+    }
+
+    @keyframes trail-fade {
+      0% { opacity: 0.8; width: 150px; }
+      100% { opacity: 0; width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Elements -->
+  <div class="background"></div>
+  <div class="stars-container"></div>
+
+  <!-- Header -->
+  <h1>Unblockee games</h1>
+
+  <!-- Game List -->
+  <div class="game-list">
+    <div class="row">
+      <div class="game"><a href="games/1v1.lolmenu.html"><img src="pictures/1v1.lol.webp" alt="1v1.lol"><p>1v1.lol</p></a></div>
+      <div class="game"><a href="games/RetroBowl.html"><img src="pictures/retrobowl picture.webp" alt="Retro Bowl"><p>Retro Bowl</p></a></div>
+      <div class="game"><a href="games/slope.html"><img src="pictures/slope.webp" alt="Slope"><p>Slope</p></a></div>
+      <div class="game"><a href="games/buildnow.html"><img src="pictures/buildnow.webp" alt="Buildnow"><p>BuildNow</p></a></div>
+      <div class="game"><a href="games/basketrandom.html"><img src="pictures/basketrandom.jpg" alt="Basket Random"><p>BasketRandom</p></a></div>
+      <div class="game"><a href="games/basketballstars.html"><img src="pictures/basketballstars.webp" alt="Basketball Stars"><p>Basketball Stars</p></a></div>
+      <div class="game"><a href="games/Minecraft.html"><img src="pictures/mincraft.webp" alt="Minecraft"><p>Minecraft</p></a></div>
+      <div class="game"><a href="games/territorial.html"><img src="pictures/territorial.jpg" alt="Territorial.io"><p>Territorial.io</p></a></div>
+    </div>
+    <div class="row">
+      <div class="game"><a href="/active"><img src="pictures/internet.webp" alt="Proxy"><p>Proxy</p></a></div>
+      <div class="game"><a href="games/slowroads.io.html"><img src="pictures/slowroads.webp" alt="Slowroads"><p>Slowroads</p></a></div>
+      <div class="game"><a href="games/zombsroyale.html"><img src="pictures/zombsroyale.webp" alt="ZombsRoyale"><p>ZombsRoyale</p></a></div>
+      <div class="game"><a href="games/krunker.html"><img src="pictures/krunker.webp" alt="Krunker"><p>Krunker</p></a></div>
+      <div class="game"><a href="games/Fnaf.html"><img src="pictures/fnaf.webp" alt="FNAF"><p>Fnaf</p></a></div>
+      <div class="game"><a href="games/boxingrandom.html"><img src="pictures/boxingrandom.webp" alt=""><p>Boxing Random</p></a></div>
+      <div class="game"><a href="#"><img src="" alt=""><p></p></a></div>
+      <div class="game"><a href="#"><img src="" alt=""><p></p></a></div>
+    </div>
+  </div>
+
+  <!-- Tabs and Buttons -->
+  <div class="changelog-tab" onclick="toggleChangelog()">Changelog</div>
+  <a href="other/other.html" class="other-tab">Other</a>
+  <div class="chat-container"><a href="chat/chat.html" class="chat-button">Chat</a></div>
+  <div class="settings-tab" onclick="toggleSettings()">Settings</div>
+
+  <!-- Changelog Content -->
+  <div class="changelog-content" id="changelog-content">
+    <strong>Changelog:</strong>
+    <ul>
+      <li>Date of creation: 1/16/25</li>
+      <li>2/21 UPDATE 2.0</li>
+      <li>PROXY WORKS</li>
+      <li>CHATGPT IN CHAT</li>
+      <li>boxing random added</li>
+      <li></li>
+    </ul>
+  </div>
+
+  <!-- Settings Overlay -->
+  <div class="settings-overlay" id="settings-overlay">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="close-btn" onclick="toggleSettings()">&times;</button>
+      </div>
+      <div class="settings-body">
+        <div class="setting-item">
+          <label>Background Effects</label>
+          <label class="switch">
+            <input type="checkbox" id="background-effects" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flag Counter -->
+  <a href="https://info.flagcounter.com/HpnN"><img src="https://s01.flagcounter.com/count/HpnN/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_10/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0"></a>
+
+  <!-- JavaScript -->
+  <script>
+    // Background Dots
+    for (let i = 0; i < 200; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.style.left = Math.random() * 100 + 'vw';
+      dot.style.top = Math.random() * 100 + 'vh';
+      dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
+      document.querySelector('.background').appendChild(dot);
+    }
+
+    // Shooting Stars
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.querySelector('.stars-container');
+      function createStar() {
+        const star = document.createElement('div');
+        star.className = 'shooting-star';
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.animationDuration = `${Math.random() * 1.5 + 2}s`;
+        container.appendChild(star);
+        setTimeout(() => star.remove(), parseFloat(star.style.animationDuration) * 1000);
+      }
+      setInterval(createStar, Math.random() * 1400 + 800);
+    });
+
+    // Toggle Changelog
+    function toggleChangelog() {
+      const content = document.getElementById('changelog-content');
+      content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Toggle Settings
+    function toggleSettings() {
+      const overlay = document.getElementById('settings-overlay');
+      overlay.style.display = overlay.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    // Background Effects Toggle
+    document.getElementById('background-effects').addEventListener('change', function(e) {
+      const starsContainer = document.querySelector('.stars-container');
+      const backgroundContainer = document.querySelector('.background');
+      if (e.target.checked) {
+        starsContainer.style.display = 'block';
+        backgroundContainer.style.display = 'block';
+      } else {
+        starsContainer.style.display = 'none';
+        backgroundContainer.style.display = 'none';
+      }
+      localStorage.setItem('backgroundEffects', e.target.checked);
+    });
+
+    // Initialize Settings
+    window.addEventListener('DOMContentLoaded', () => {
+      const bgEffects = localStorage.getItem('backgroundEffects') !== 'false';
+      document.getElementById('background-effects').checked = bgEffects;
+      document.querySelector('.stars-container').style.display = bgEffects ? 'block' : 'none';
+      document.querySelector('.background').style.display = bgEffects ? 'block' : 'none';
+    });
+
+    // Close Settings on Outside Click
+    document.getElementById('settings-overlay').addEventListener('click', function(e) {
+      if (e.target === this) toggleSettings();
+    });
+  </script>
+</body>
+</html>

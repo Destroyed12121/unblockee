@@ -1,0 +1,252 @@
+/* Custom CSS for dark theme with animations */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+/* General Styles */
+body {
+  background: radial-gradient(ellipse at center, #120924, #0a071a, #050310, #000000);
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Logo Styles */
+#header {
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.logo {
+  font-size: 0.8rem;
+  color: #6a1b9a; /* Purple color */
+  margin-bottom: 0.5rem;
+}
+
+.proxy-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #6a1b9a, #d8b4fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+
+/* Animated Dots Pattern */
+.dots-pattern {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(90deg, 
+    transparent 20%,
+    rgba(106, 27, 154, 0.3) 50%,
+    transparent 80%
+  );
+  opacity: 0.5;
+  z-index: 1;
+}
+
+/* Header Section */
+#header {
+  position: relative;
+  padding: 4rem 0 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+#header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(106, 27, 154, 0.5), 
+    transparent
+  );
+}
+
+/* Proxy Text Effect */
+.proxy-title {
+  font-size: 4rem;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, #6a1b9a, #d8b4fe, #6a1b9a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px rgba(106, 27, 154, 0.5);
+  animation: gradientFlow 3s ease infinite;
+  margin: 1rem 0;
+  font-weight: 800;
+  font-family: 'Arial Black', sans-serif;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Content Section - Centered */
+#content {
+  position: relative;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto; /* Centers the content block */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#content h1 {
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(106, 27, 154, 0.5);
+}
+
+#content h1:hover {
+  color: #d8b4fe;
+  transform: translateY(-3px);
+}
+
+/* Popular Sites Section */
+#popularSites {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+#popularSites img {
+  width: 60px;
+  height: 60px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+#popularSites img:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 20px rgba(106, 27, 154, 0.5);
+}
+
+/* Search Bar Styles - Centered */
+#searchbar {
+  position: relative;
+  max-width: 600px;
+  margin: 2rem auto; /* Centers the search bar */
+}
+
+.form__input {
+  width: 100%;
+  padding: 1rem 2rem;
+  border: 2px solid rgba(106, 27, 154, 0.5);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.form__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.form__input:focus {
+  outline: none;
+  box-shadow: 0 0 20px rgba(106, 27, 154, 0.3);
+  border-color: #d8b4fe;
+}
+
+/* Footer Styles */
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(106, 27, 154, 0.5);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  z-index: 100;
+}
+
+#footer p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Canvas for Animations */
+#canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: linear-gradient(90deg, #6a1b9a 0%, #d8b4fe 100%);
+  animation: shoot 2s linear infinite;
+  border-radius: 50%;
+}
+
+@keyframes shoot {
+  0% { transform: translate(-100%, -100%); opacity: 1; }
+  100% { transform: translate(100vw, 100vh); opacity: 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #header h1 {
+    font-size: 1.8rem;
+  }
+
+  #content h1 {
+    font-size: 1.5rem;
+  }
+
+  #popularSites img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .form__input {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  #content {
+    margin: 0 auto; /* Centers content on mobile */
+  }
+}
