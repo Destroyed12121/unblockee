@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom</title>
+  <style>
+    /* General Styles */
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: auto;
+      margin: 0;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+      display: none; /* Initially hidden, controlled by JS */
+    }
+
+    h1 {
+      margin-top: 50px;
+    }
+
+    /* Text Area Styles */
+    #html {
+      background-color: #1a1a1a;
+      color: white;
+      border-radius: 7px;
+      border: none;
+      resize: none;
+      margin-bottom: 6px;
+      width: 100%;
+      height: 80vh;
+    }
+
+    /* Button Styles */
+    .button {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+
+    .button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    /* Home Button Styles */
+    .home-tab {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .home-tab:hover {
+      background-color: white;
+      color: black;
+    }
+
+    /* Dots Animation Styles */
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: moveDot 5s linear infinite;
+    }
+
+    @keyframes moveDot {
+      0% { transform: translate(50vw, 50vh) scale(1); }
+      100% { transform: translate(-50vw, -50vh) scale(0); }
+    }
+
+    /* Shooting Stars Styles */
+    .stars-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+      display: none; /* Initially hidden, controlled by JS */
+    }
+
+    .shooting-star {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #d8b4fe;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(216, 180, 254, 0.6);
+      animation: shoot 2.5s linear forwards;
+    }
+
+    .shooting-star::before {
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 3px;
+      background: linear-gradient(135deg, rgba(216, 180, 254, 0.8), transparent 90%);
+      transform: rotate(135deg);
+      transform-origin: right center;
+      top: 50%;
+      right: 6px;
+      animation: trail-fade 2.5s linear forwards;
+    }
+
+    @keyframes shoot {
+      0% { transform: translate(120vw, -50vh); opacity: 1; }
+      100% { transform: translate(-40vw, 50vh); opacity: 0; }
+    }
+
+    @keyframes trail-fade {
+      0% { opacity: 0.8; width: 150px; }
+      100% { opacity: 0; width: 0; }
+    }
+  </style>
+  <!-- Google Tag Manager (optional analytics) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GLK05RC89"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2GLK05RC89');
+  </script>
+</head>
+<body>
+  <!-- Background Elements -->
+  <div class="background"></div>
+  <div class="stars-container"></div>
+
+  <!-- Header -->
+  <h1>Unblockee - HTML Code Cloaker</h1>
+
+  <!-- Code Input Area and Button -->
+  <center>
+    <div>
+      <textarea id="html" placeholder="HTML/CSS/JavaScript code goes here"></textarea>
+    </div>
+    <button class="button" onclick="cloakHTML()">Cloak in Blank Tab</button>
+  </center>
+
+  <!-- Home Button -->
+  <a href="index.html" class="home-tab">Home</a>
+
+  <!-- JavaScript Functionality -->
+  <script>
+    // Background Effects Initialization
+    document.addEventListener("DOMContentLoaded", function() {
+      const backgroundContainer = document.querySelector('.background');
+      const starsContainer = document.querySelector('.stars-container');
+      const bgEffects = localStorage.getItem('backgroundEffects') !== 'false';
+
+      // Set initial visibility based on localStorage
+      backgroundContainer.style.display = bgEffects ? 'block' : 'none';
+      starsContainer.style.display = bgEffects ? 'block' : 'none';
+
+      if (bgEffects) {
+        // Background Dots Animation
+        for (let i = 0; i < 200; i++) {
+          const dot = document.createElement('div');
+          dot.className = 'dot';
+          dot.style.left = Math.random() * 100 + 'vw';
+          dot.style.top = Math.random() * 100 + 'vh';
+          dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
+          backgroundContainer.appendChild(dot);
+        }
+
+        // Shooting Stars Animation
+        function createStar() {
+          const star = document.createElement('div');
+          star.className = 'shooting-star';
+          star.style.top = `${Math.random() * 100}vh`;
+          star.style.animationDuration = `${Math.random() * 1.5 + 2}s`;
+          starsContainer.appendChild(star);
+          setTimeout(() => star.remove(), parseFloat(star.style.animationDuration) * 1000);
+        }
+        setInterval(createStar, Math.random() * 1400 + 800);
+      }
+    });
+
+    // Function to Cloak in Blank Tab
+    function cloakHTML() {
+      var code = document.getElementById("html").value;
+      var html = window.open('about:blank');
+      html.document.open();
+      html.document.write(code);
+      html.document.close();
+    }
+  </script>
+</body>
+</html>

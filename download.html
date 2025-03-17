@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Options</title>
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+        }
+
+        .dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            animation: moveDot 5s linear infinite;
+        }
+
+        @keyframes moveDot {
+            0% { transform: translate(50vw, 50vh) scale(1); }
+            100% { transform: translate(-50vw, -50vh) scale(0); }
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            width: 250px;
+            margin: 10px;
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 123, 255, 1);
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .home-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .home-button:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <div class="content">
+        <h1>Choose Download</h1>
+        <button class="btn" onclick="window.location.href='https://drive.google.com/drive/folders/1tJzeOcaPWu-MRNLnWeVXypjAkAvZUdDX?usp=drive_link'">Entire Site</button>
+        <button class="btn" onclick="window.location.href='https://drive.google.com/file/d/1Z7Hihs39EiberuJbxEFAVob5MWGRYZzQ/view?usp=drive_link'">Lite Version</button>
+    </div>
+
+    <a href="/" class="home-button">Home</a>
+
+    <script>
+        // Background animation
+        const background = document.querySelector('.background');
+        for (let i = 0; i < 30; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.style.left = Math.random() * 100 + 'vw';
+            dot.style.top = Math.random() * 100 + 'vh';
+            dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
+            background.appendChild(dot);
+        }
+    </script>
+</body>
+</html>

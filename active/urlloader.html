@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z14CF8WQ1J');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Loader </title>
+  <style>
+    /* [Keeping all your existing styles] */
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+    }
+
+    .dot {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: moveDot 5s linear infinite;
+    }
+
+    @keyframes moveDot {
+      0% { transform: translate(50vw, 50vh) scale(1); }
+      100% { transform: translate(-50vw, -50vh) scale(0); }
+    }
+
+    #urlInput {
+      position: fixed;
+      bottom: 50px;              
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      padding: 15px;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.7); 
+      color: white;
+      border: none;
+      outline: none;
+      border-radius: 4px;
+    }
+
+    #urlInput::placeholder {
+      color: #ccc;
+    }
+
+    .home-button {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .home-button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    /* New styles for custom content */
+    .content-container {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .content-button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      padding: 8px 16px;
+      margin: 5px;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .content-button:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+<a> this bassicly just loads urls and puts it in about:blank to get them unblocked. <br>
+alot of  popular websites block this for whatever reason so the websites are limited </a>
+  <div class="background"></div>
+  
+  <!-- Custom Content Section -->
+  <div class="content-container">
+    <button class="content-button" onclick="addContent()">Add Custom URL</button>
+    <button class="content-button" onclick="deleteAllContent()">Clear All</button>
+    <div id="contentList" style="margin-top: 10px;"></div>
+  </div>
+
+  <input type="text" id="urlInput" placeholder="Enter a URL" 
+         spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">
+  <a href="/" class="home-button">Home</a>
+
+  <script>
+    // Background dots
+    const background = document.querySelector('.background');
+    for (let i = 0; i < 50; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.style.left = Math.random() * 100 + 'vw';
+      dot.style.top = Math.random() * 100 + 'vh';
+      dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
+      background.appendChild(dot);
+    }
+
+    let gameWindow;
+    const urlInput = document.getElementById('urlInput');
+    const contentList = document.getElementById('contentList');
+
+    // Load saved content
+    let savedContent = JSON.parse(localStorage.getItem('customURLs') || '[]');
+    renderContentList();
+
+    function isValidURL(string) {
+      try {
+        const url = new URL(string);
+        const hostname = url.hostname;
+        if (!['http:', 'https:'].includes(url.protocol)) return false;
+        if (/\s/.test(hostname) || !/^([a-z0-9-]+\.)+[a-z]{2,}$/i.test(hostname)) {
+          return false;
+        }
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function loadURL(url) {
+      if (!/^https?:\/\//i.test(url)) {
+        url = `https://${url}`;
+      }
+
+      if (!isValidURL(url)) {
+        alert('Invalid URL format. Please enter a valid URL without spaces in the domain.');
+        return;
+      }
+
+      try {
+        if (!gameWindow || gameWindow.closed) {
+          gameWindow = window.open('about:blank', '_blank');
+        } else {
+          gameWindow.focus();
+        }
+        
+        const doc = gameWindow.document;
+        doc.open();
+        doc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <style>
+                body { margin: 0; overflow: hidden; }
+                object { width: 100vw; height: 100vh; border: none; }
+              </style>
+            </head>
+            <body>
+              <object data="${url}"></object>
+            </body>
+          </html>
+        `);
+        doc.close();
+      } catch (error) {
+        alert('Failed to open URL. It may be blocked by browser security policies.');
+      }
+    }
+
+    // URL Input handling
+    urlInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        loadURL(this.value.trim());
+      }
+    });
+
+    // Custom Content Functions
+    function addContent() {
+      const name = prompt("App Name", "Custom Link");
+      if (!name) return;
+
+      const url = prompt("URL", "https://");
+      if (!url || !url.includes('.')) {
+        alert('Please enter a valid URL');
+        return;
+      }
+
+      savedContent.push({ name, url });
+      localStorage.setItem('customURLs', JSON.stringify(savedContent));
+      renderContentList();
+    }
+
+    function deleteAllContent() {
+      if (confirm('Are you sure you want to delete all custom URLs?')) {
+        savedContent = [];
+        localStorage.setItem('customURLs', JSON.stringify(savedContent));
+        renderContentList();
+      }
+    }
+
+    function renderContentList() {
+      contentList.innerHTML = '';
+      savedContent.forEach((item, index) => {
+        const button = document.createElement('button');
+        button.className = 'content-button';
+        button.textContent = item.name;
+        button.title = item.url;
+        button.onclick = () => loadURL(item.url);
+        contentList.appendChild(button);
+      });
+    }
+  </script>
+</body>
+</html>

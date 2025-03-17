@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LupineVault Play</title>
+    <link rel="stylesheet" href="../assets/styles/css/global.min.css">
+    <link rel="stylesheet" href="../assets/styles/css/watch.min.css">
+    <link rel="stylesheet" href="../assets/font-awesome/css/all.css">
+    <script defer src="https://cloud.umami.is/script.js"
+        data-website-id="52bfea34-46bb-49d1-976f-a5252508ddef"></script>
+</head>
+
+<body>
+    <div id="particles-js"></div>
+    <script src="/particles.min.js"></script>
+    <div id="sidebarMenu"></div>
+
+    <div id="mainContent">
+        <div class="flex-vert" id="watchSourceContainer">
+            <p>Change source and toggle proxied until it works</p>
+            <div class="flex-horiz">
+                <div class="flex-vert">
+                    <p>Source</p>
+                    <select name="watchSource" id="watchSourceDropdown">
+                        <option value="1">1: Default, no ads</option>
+                        <option value="2">2: No ads, limited movie selection, official partner</option>
+                        <option value="3">3: Has ads, good amount of movies</option>
+                        <option value="4">4: Has ads, lots of movies</option>
+                        <option value="5">5: Has ads, lots of movies</option>
+                        <option value="6">6: Has NSFW ads, TONS of movies</option>
+                        <option value="7">7: Has NSFW ads, TONS of movies</option>
+                    </select>
+                </div>
+                <div class="flex-vert">
+                    <p>Proxied?</p>
+                    <input type="checkbox" id="watchProxiedCheckbox" name="watchProxied" value="true">
+                </div>
+            </div>
+        </div>
+        <iframe id="movieIframe" scrolling="no" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="origin" allowfullscreen></iframe>
+        <footer></footer>
+    </div>
+    <script src="../assets/js/watchPlay.js"></script>
+    <script src="/api/getMetrics.js"></script>
+    <script src="../assets/js/global.js"></script>
+</body>
+
+</html>
