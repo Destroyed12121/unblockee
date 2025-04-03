@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <script src="../pluginstuff.js"></script>
+you can search for any movie, disabled scrolling cuz uhh
+    <script src="pluginstuff.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <meta name="referrer" content="origin" />
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="52bfea34-46bb-49d1-976f-a5252508ddef"></script>
+    <link rel="stylesheet" href="../assets/font-awesome/css/all.css">
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: auto;
+            margin: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+        h3 {
+            margin: 10px 0;
+        }
+
+        .playLogo {
+            width: 120px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .home-tab {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .home-tab:hover {
+            background-color: white;
+            color: black;
+        }
+
+        #mainContent {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        #tabs {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            margin: 20px 0;
+        }
+        .tab {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab.active {
+            background-color: white;
+            color: black;
+        }
+        .tab:hover {
+            background-color: white;
+            color: black;
+        }
+
+        #search-bar {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        #search-input {
+            width: 100%;
+            padding: 10px;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .content-container {
+            margin: 20px auto;
+            max-width: 6000px;
+            max-height: 80vh;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            overflow-y: hidden;
+        }
+
+        .media-item {
+            width: 150px;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .media-item img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .media-item p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: white;
+        }
+
+        #season-episode-explorer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #season-episode-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+        }
+        #close-season-episode {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        #seasons-container, #episodes-container {
+            margin: 10px 0;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 80%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #iframe-container {
+            position: relative;
+            width: 60%;
+            max-width: 60000px;
+        }
+        #movie-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+        }
+        .iframe-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #fullscreen-btn, #close-btn {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #credits-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+            z-index: 1001;
+        }
+
+        .dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            animation: moveDot 5s linear infinite;
+        }
+        @keyframes moveDot {
+            0% { transform: translate(50vw, 50vh) scale(1); }
+            100% { transform: translate(-50vw, -50vh) scale(0); }
+        }
+
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shooting-star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #d8b4fe;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(216, 180, 254, 0.6);
+            animation: shoot 2.5s linear forwards;
+        }
+        .shooting-star::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(135deg, rgba(216, 180, 254, 0.8), transparent 90%);
+            transform: rotate(135deg);
+            transform-origin: right center;
+            top: 50%;
+            right: 6px;
+            animation: trail-fade 2.5s linear forwards;
+        }
+        @keyframes shoot {
+            0% { transform: translate(120vw, -50vh); opacity: 1; }
+            100% { transform: translate(-40vw, 50vh); opacity: 0; }
+        }
+        @keyframes trail-fade {
+            0% { opacity: 0.8; width: 150px; }
+            100% { opacity: 0; width: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="stars-container"></div>
+
+    <a href="../../index.html" class="home-tab">Home</a>
+
+    <div id="mainContent">
+        <h1>Unblockee Movies</h1>
+        <a href="info.html">Info</a>
+        <div id="tabs">
+            <div id="movies-tab" class="tab active">Movies</div>
+            <div id="tv-shows-tab" class="tab">TV Shows</div>
+        </div>
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search for movies or TV shows...">
+        </div>
+        <div id="movies" class="content-container"></div>
+        <div id="tv-shows" class="content-container" style="display:none;"></div>
+
+        <div id="season-episode-explorer">
+            <div id="season-episode-container">
+                <div id="season-episode-header">
+                    <h3>Select a Season and Episode</h3>
+                    <i id="close-season-episode" class="fas fa-times"></i>
+                </div>
+                <div id="seasons-container"></div>
+                <div id="episodes-container"></div>
+            </div>
+        </div>
+
+        <div id="overlay">
+            <div id="iframe-container">
+                <div class="iframe-controls">
+                    <i id="fullscreen-btn" class="fas fa-expand"></i>
+                </div>
+                <i id="close-btn" class="fas fa-times"></i>
+                <iframe id="movie-iframe" scrolling="no" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div id="credits-bar">Credits to tf7software, InfinityLoop, and the LupineVault organization</div>
+    </div>
+
+    <script src="../assets/js/watchSelect.js"></script>
+    <script src="/api/getMetrics.js"></script>
+    <script src="../assets/js/global.js"></script>
+</body>
+</html>

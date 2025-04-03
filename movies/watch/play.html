@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="../pluginstuff.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblockee Play</title>
+    <meta name="referrer" content="origin" />
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="52bfea34-46bb-49d1-976f-a5252508ddef"></script>
+    <link rel="stylesheet" href="../assets/font-awesome/css/all.css">
+    <style>
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: auto;
+            margin: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
+        }
+
+        .home-tab {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .home-tab:hover {
+            background-color: white;
+            color: black;
+        }
+
+        #mainContent {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        #iframe-container {
+            position: relative;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        #movie-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .iframe-controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #fullscreen-btn, #close-btn {
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        #close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #credits-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+            z-index: 1001;
+        }
+
+        .proxy-toggle {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .proxy-toggle label {
+            margin-right: 10px;
+        }
+
+        .proxy-toggle input[type="checkbox"] {
+            transform: scale(1.5);
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    <a href="../../index.html" class="home-tab">Home</a>
+
+    <div id="mainContent">
+        <h1>Unblockee Play</h1>
+        <div class="proxy-toggle">
+            <label for="watchProxiedCheckbox">Proxied?</label>
+            <input type="checkbox" id="watchProxiedCheckbox" name="watchProxied">
+        </div>
+        <div id="iframe-container">
+            <div class="iframe-controls">
+                <i id="fullscreen-btn" class="fas fa-expand"></i>
+            </div>
+            <i id="close-btn" class="fas fa-times"></i>
+            <iframe id="movie-iframe" scrolling="no" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="origin" allowfullscreen></iframe>
+        </div>
+        <div id="credits-bar">Credits to tf7software, InfinityLoop, and the LupineVault organization</div>
+    </div>
+
+    <script src="../assets/js/watchPlay.js"></script>
+    <script src="/api/getMetrics.js"></script>
+    <script src="../assets/js/global.js"></script>
+</body>
+</html>

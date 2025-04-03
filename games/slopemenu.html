@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../style.css">
+ <script src="../pluginstuff.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Z14CF8WQ1J');
+   </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <style>
+
+
+        body {
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+        }
+
+        .btn {
+            padding: 20px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            width: 250px;
+            margin: 10px;
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: rgba(0, 123, 255, 1);
+        }
+
+        .content {
+            position: relative;
+
+        }
+
+        .home-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .home-button:hover {
+            background-color: white;
+            color: black;
+        }
+
+        .counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="counter">
+        Old Version Clicks: <span id="oldCount">0</span><br>
+        New Version Clicks: <span id="newCount">0</span>
+    </div>
+
+    <div class="content">
+        <h1>Normal or two player?</h1>
+        <button class="btn" onclick="trackAndOpen('old')">Normal</button>
+        <button class="btn" onclick="trackAndOpen('new')">2 Player</button>
+    </div>
+    <a href="/" class="home-button">Home</a>
+
+    <script>
+        // Counter Functionality (remains in HTML as it's not an effect)
+        let counters = {
+            old: parseInt(localStorage.getItem('oldVersionClicks')) || 0,
+            new: parseInt(localStorage.getItem('newVersionClicks')) || 0
+        };
+
+        document.getElementById('oldCount').textContent = counters.old;
+        document.getElementById('newCount').textContent = counters.new;
+
+        function trackAndOpen(version) {
+            counters[version]++;
+            localStorage.setItem(version + 'VersionClicks', counters[version]);
+            document.getElementById(version + 'Count').textContent = counters[version];
+            window.location.href = version === 'old' ? "slope.html" : "slope2players.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="../pluginstuff.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Classroom</title>
+  <title>Code Runner</title>
   <style>
-    /* General Styles */
     body {
       background: black;
       color: white;
       font-family: Arial, sans-serif;
-      text-align: center;
-      overflow: auto;
       margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
-
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
-      display: none; /* Initially hidden, controlled by JS */
-    }
-
     h1 {
-      margin-top: 50px;
+      margin: 20px 0;
     }
-
-    /* Text Area Styles */
-    #html {
-      background-color: #1a1a1a;
+    .editor-container {
+      display: flex;
+      width: 90%;
+      height: 70vh;
+      margin-bottom: 10px;
+    }
+    #editor {
+      width: 70%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0.7;
+    }
+    #sidebar {
+      width: 30%;
+      height: 100%;
+      background: #1a1a1a;
       color: white;
-      border-radius: 7px;
-      border: none;
-      resize: none;
-      margin-bottom: 6px;
-      width: 100%;
-      height: 80vh;
+      padding: 10px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      border-radius: 5px;
+      margin-left: 10px;
+      font-family: monospace;
+      opacity: 0.87;
     }
-
-    /* Button Styles */
     .button {
       background-color: rgba(0, 0, 0, 0.8);
       color: white;
@@ -52,20 +56,31 @@
       font-weight: bold;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin: 10px;
+      margin: 5px;
     }
-
     .button:hover {
       background-color: white;
       color: black;
     }
-
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    #language {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
     /* Home Button Styles */
     .home-tab {
       position: fixed;
       bottom: 10px;
       left: 10px;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0,0,0,0.8);
       color: white;
       padding: 10px 20px;
       border-radius: 5px;
@@ -76,143 +91,211 @@
       text-decoration: none;
       transition: all 0.3s ease;
     }
-
     .home-tab:hover {
       background-color: white;
       color: black;
     }
-
-    /* Dots Animation Styles */
-    .dot {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: white;
-      animation: moveDot 5s linear infinite;
-    }
-
-    @keyframes moveDot {
-      0% { transform: translate(50vw, 50vh) scale(1); }
-      100% { transform: translate(-50vw, -50vh) scale(0); }
-    }
-
-    /* Shooting Stars Styles */
-    .stars-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: -1;
-      display: none; /* Initially hidden, controlled by JS */
-    }
-
-    .shooting-star {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #d8b4fe;
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(216, 180, 254, 0.6);
-      animation: shoot 2.5s linear forwards;
-    }
-
-    .shooting-star::before {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 3px;
-      background: linear-gradient(135deg, rgba(216, 180, 254, 0.8), transparent 90%);
-      transform: rotate(135deg);
-      transform-origin: right center;
-      top: 50%;
-      right: 6px;
-      animation: trail-fade 2.5s linear forwards;
-    }
-
-    @keyframes shoot {
-      0% { transform: translate(120vw, -50vh); opacity: 1; }
-      100% { transform: translate(-40vw, 50vh); opacity: 0; }
-    }
-
-    @keyframes trail-fade {
-      0% { opacity: 0.8; width: 150px; }
-      100% { opacity: 0; width: 0; }
-    }
   </style>
-  <!-- Google Tag Manager (optional analytics) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2GLK05RC89"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-2GLK05RC89');
-  </script>
+  <!-- Load Monaco Editor from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
 </head>
 <body>
-  <!-- Background Elements -->
-  <div class="background"></div>
-  <div class="stars-container"></div>
-
-  <!-- Header -->
-  <h1>Unblockee - HTML Code Cloaker</h1>
-
-  <!-- Code Input Area and Button -->
-  <center>
-    <div>
-      <textarea id="html" placeholder="HTML/CSS/JavaScript code goes here"></textarea>
-    </div>
-    <button class="button" onclick="cloakHTML()">Cloak in Blank Tab</button>
-  </center>
-
   <!-- Home Button -->
   <a href="index.html" class="home-tab">Home</a>
 
-  <!-- JavaScript Functionality -->
+  <h1>Unblockee Code Editor</h1>
+  <center>
+    <!-- Language Selection -->
+    <select id="language">
+      <option value="html">HTML</option>
+      <option value="javascript">JavaScript</option>
+      <option value="css">CSS</option>
+    </select>
+  </center>
+  <!-- Editor and Sidebar Container -->
+  <div class="editor-container">
+    <div id="editor"></div>
+    <div id="sidebar"></div>
+  </div>
+  <!-- Action Buttons -->
+  <div class="button-container">
+    <button class="button" onclick="formatCode()">Format Code</button>
+    <button class="button" onclick="fixCode()">Fix Code</button>
+    <button class="button" onclick="runCode()">Open in about:blank</button>
+  </div>
+  <a>fix code got a werid glitch</a>
+
   <script>
-    // Background Effects Initialization
-    document.addEventListener("DOMContentLoaded", function() {
-      const backgroundContainer = document.querySelector('.background');
-      const starsContainer = document.querySelector('.stars-container');
-      const bgEffects = localStorage.getItem('backgroundEffects') !== 'false';
+    // Configure Monaco Editor paths
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+      // Create the editor with default HTML code
+      window.editor = monaco.editor.create(document.getElementById('editor'), {
+        value: '<!DOCTYPE html>\n<html>\n<head>\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n</body>\n</html>',
+        language: 'html',
+        theme: 'vs-dark',
+        automaticLayout: true,
+        wordWrap: 'on',
+        scrollBeyondLastLine: false
+      });
 
-      // Set initial visibility based on localStorage
-      backgroundContainer.style.display = bgEffects ? 'block' : 'none';
-      starsContainer.style.display = bgEffects ? 'block' : 'none';
+      // Mirror content to sidebar in real-time
+      editor.onDidChangeModelContent(() => {
+        const content = editor.getValue();
+        document.getElementById('sidebar').textContent = content;
+      });
 
-      if (bgEffects) {
-        // Background Dots Animation
-        for (let i = 0; i < 200; i++) {
-          const dot = document.createElement('div');
-          dot.className = 'dot';
-          dot.style.left = Math.random() * 100 + 'vw';
-          dot.style.top = Math.random() * 100 + 'vh';
-          dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
-          backgroundContainer.appendChild(dot);
-        }
-
-        // Shooting Stars Animation
-        function createStar() {
-          const star = document.createElement('div');
-          star.className = 'shooting-star';
-          star.style.top = `${Math.random() * 100}vh`;
-          star.style.animationDuration = `${Math.random() * 1.5 + 2}s`;
-          starsContainer.appendChild(star);
-          setTimeout(() => star.remove(), parseFloat(star.style.animationDuration) * 1000);
-        }
-        setInterval(createStar, Math.random() * 1400 + 800);
-      }
+      // Update language when selection changes
+      document.getElementById('language').addEventListener('change', function() {
+        monaco.editor.setModelLanguage(editor.getModel(), this.value);
+      });
     });
 
-    // Function to Cloak in Blank Tab
-    function cloakHTML() {
-      var code = document.getElementById("html").value;
-      var html = window.open('about:blank');
-      html.document.open();
-      html.document.write(code);
-      html.document.close();
+    // Format the code using Monaco's built-in formatter with better handling
+    function formatCode() {
+      editor.getAction('editor.action.formatDocument').run().then(() => {
+        const model = editor.getModel();
+        const fullRange = model.getFullModelRange();
+        const formatted = model.getValue();
+        editor.executeEdits('formatCode', [{
+          range: fullRange,
+          text: formatted
+        }]);
+      }).catch(() => {
+        // Fallback basic formatting if Monaco fails
+        const code = editor.getValue();
+        const lines = code.split('\n').map(line => line.trim());
+        editor.setValue(lines.join('\n'));
+      });
+    }
+
+    // Enhanced code fixing based on language without adding extra newlines or random characters
+    function fixCode() {
+      const language = document.getElementById('language').value;
+      const code = editor.getValue();
+      let fixedCode = code;
+
+      if (language === 'javascript') {
+        try {
+          editor.getAction('editor.action.autoFix').run().then(() => {
+            let jsCode = editor.getValue();
+            const lines = jsCode.split('\n');
+            const fixedLines = lines.map(line => {
+              const trimmed = line.trim();
+              if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
+                  !trimmed.endsWith('}') && !trimmed.startsWith('//') && 
+                  !trimmed.includes('function') && !trimmed.endsWith(':')) {
+                return line.replace(trimmed, trimmed + ';');
+              }
+              return line;
+            });
+            fixedCode = fixedLines.join('\n').replace(/\n\s*\n/g, '\n');
+            editor.setValue(fixedCode);
+          });
+        } catch (e) {
+          const lines = code.split('\n');
+          fixedCode = lines.map(line => {
+            const trimmed = line.trim();
+            if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
+                !trimmed.endsWith('}') && !trimmed.startsWith('//')) {
+              return line.replace(trimmed, trimmed + ';');
+            }
+            return line;
+          }).join('\n').replace(/\n\s*\n/g, '\n');
+          editor.setValue(fixedCode);
+        }
+      } else if (language === 'html') {
+        try {
+          const parser = new DOMParser();
+          let htmlContent = code.trim();
+          if (!htmlContent.match(/<!DOCTYPE\s+html>/i)) {
+            htmlContent = '<!DOCTYPE html>\n' + htmlContent;
+          }
+          const doc = parser.parseFromString(htmlContent, 'text/html');
+          if (!doc.querySelector('parsererror')) {
+            fixedCode = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+          } else {
+            let result = '<!DOCTYPE html>\n<html>';
+            const headMatch = htmlContent.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
+            const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+            
+            if (headMatch) {
+              result += '\n' + headMatch[0];
+            } else {
+              result += '\n<head></head>';
+            }
+            
+            if (bodyMatch) {
+              result += '\n' + bodyMatch[0];
+            } else {
+              const headEndIndex = headMatch ? htmlContent.indexOf('</head>') + 7 : htmlContent.indexOf('</html>');
+              let bodyContent = '';
+              if (headEndIndex > -1) {
+                bodyContent = htmlContent.substring(headEndIndex, htmlContent.indexOf('</html>') || htmlContent.length).trim();
+              } else {
+                bodyContent = htmlContent.replace(/<!DOCTYPE html>|<html[^>]*>|<\/html>|<head[^>]*>|<\/head>/gi, '').trim();
+              }
+              if (bodyContent) {
+                result += '\n<body>' + bodyContent + '</body>';
+              } else {
+                result += '\n<body></body>';
+              }
+            }
+            
+            result += '\n</html>';
+            fixedCode = result;
+          }
+          fixedCode = fixedCode.replace(/\n\s*\n/g, '\n');
+          editor.setValue(fixedCode);
+          editor.trigger('', 'editor.action.formatDocument');
+        } catch (e) {
+          const bodyContent = code.replace(/<!DOCTYPE html>|<html[^>]*>|<\/html>|<head[^>]*>|<\/head>|<body[^>]*>|<\/body>/gi, '').trim();
+          fixedCode = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>' + 
+                     (bodyContent || '') + 
+                     '\n</body>\n</html>';
+          fixedCode = fixedCode.replace(/\n\s*\n/g, '\n');
+          editor.setValue(fixedCode);
+        }
+      } else if (language === 'css') {
+        try {
+          const lines = code.split('\n');
+          fixedCode = lines.map(line => {
+            const trimmed = line.trim();
+            if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
+                !trimmed.endsWith('}') && !trimmed.startsWith('/*') && 
+                !trimmed.endsWith('*/')) {
+              return line.replace(trimmed, trimmed + ';');
+            }
+            return line;
+          }).join('\n').replace(/\n\s*\n/g, '\n');
+          editor.setValue(fixedCode);
+          editor.trigger('', 'editor.action.formatDocument');
+        } catch (e) {
+          fixedCode = code.replace(/([^{};])\s*$/gm, '$1;').replace(/\n\s*\n/g, '\n');
+          editor.setValue(fixedCode);
+        }
+      }
+    }
+
+    // Run the code in a new about:blank tab
+    function runCode() {
+      const language = document.getElementById('language').value;
+      const code = editor.getValue();
+      const newWindow = window.open('about:blank');
+
+      if (language === 'javascript') {
+        newWindow.document.open();
+        newWindow.document.write('<html><body><script>' + code + '<\/script></body></html>');
+        newWindow.document.close();
+      } else if (language === 'html') {
+        newWindow.document.open();
+        newWindow.document.write(code);
+        newWindow.document.close();
+      } else if (language === 'css') {
+        newWindow.document.open();
+        newWindow.document.write('<html><body><style>' + code + '</style></body></html>');
+        newWindow.document.close();
+      }
     }
   </script>
 </body>

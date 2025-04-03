@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+  <script src="../pluginstuff.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom</title>
     <style>
-    
         /* General Styles */
         body {
             background: black;
@@ -14,17 +16,6 @@
             text-align: center;
             overflow: hidden;
             margin: 0;
-        }
-
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: radial-gradient(ellipse at center, #000000, #0a0a0a, #111111, #1a1a1a, #222222);
-            display: none; /* Initially hidden, controlled by JS */
         }
 
         h1 {
@@ -36,17 +27,17 @@
             max-width: 600px;
             margin: 20px auto;
             padding: 20px;
-            background: rgba(0,0,0,0.9);
+            background: rgba(30, 30, 30, 0.4);
             border: 1px solid rgba(255,255,255,0.1);
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
         }
 
         /* Text Area Styles */
         textarea {
             width: 100%;
             height: 200px;
-            background-color: #1a1a1a;
+            background-color: rgba(0, 0, 0, 0.7);
             color: white;
             border: none;
             border-radius: 5px;
@@ -63,7 +54,6 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
             margin: 10px 0;
         }
 
@@ -86,7 +76,6 @@
             cursor: pointer;
             z-index: 10;
             text-decoration: none;
-            transition: all 0.3s ease;
         }
 
         .home-tab:hover {
@@ -119,73 +108,9 @@
         .credit-container a:hover {
             text-decoration: underline;
         }
-
-        /* Dots Animation Styles */
-        .dot {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            animation: moveDot 5s linear infinite;
-        }
-
-        @keyframes moveDot {
-            0% { transform: translate(50vw, 50vh) scale(1); }
-            100% { transform: translate(-50vw, -50vh) scale(0); }
-        }
-
-        /* Shooting Stars Styles */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: -1;
-            display: none; /* Initially hidden, controlled by JS */
-        }
-
-        .shooting-star {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #d8b4fe;
-            border-radius: 50%;
-            box-shadow: 0 0 15px rgba(216, 180, 254, 0.6);
-            animation: shoot 2.5s linear forwards;
-        }
-
-        .shooting-star::before {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 3px;
-            background: linear-gradient(135deg, rgba(216, 180, 254, 0.8), transparent 90%);
-            transform: rotate(135deg);
-            transform-origin: right center;
-            top: 50%;
-            right: 6px;
-            animation: trail-fade 2.5s linear forwards;
-        }
-
-        @keyframes shoot {
-            0% { transform: translate(120vw, -50vh); opacity: 1; }
-            100% { transform: translate(-40vw, 50vh); opacity: 0; }
-        }
-
-        @keyframes trail-fade {
-            0% { opacity: 0.8; width: 150px; }
-            100% { opacity: 0; width: 0; }
-        }
     </style>
 </head>
 <body>
-    <!-- Background Elements -->
-    <div class="background"></div>
-    <div class="stars-container"></div>
-  <a> bru they blocked data urls at my school nooooo </a>
     <!-- Home Button -->
     <a href="index.html" class="home-tab">Home</a>
 
@@ -210,40 +135,6 @@
 
     <!-- JavaScript Functionality -->
     <script>
-        // Background Effects Initialization
-        document.addEventListener("DOMContentLoaded", function() {
-            const backgroundContainer = document.querySelector('.background');
-            const starsContainer = document.querySelector('.stars-container');
-            const bgEffects = localStorage.getItem('backgroundEffects') !== 'false';
-
-            // Set initial visibility based on localStorage
-            backgroundContainer.style.display = bgEffects ? 'block' : 'none';
-            starsContainer.style.display = bgEffects ? 'block' : 'none';
-
-            if (bgEffects) {
-                // Background Dots Animation
-                for (let i = 0; i < 200; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'dot';
-                    dot.style.left = Math.random() * 100 + 'vw';
-                    dot.style.top = Math.random() * 100 + 'vh';
-                    dot.style.animationDuration = 1.8 + Math.random() * 5 + 's';
-                    backgroundContainer.appendChild(dot);
-                }
-
-                // Shooting Stars Animation
-                function createStar() {
-                    const star = document.createElement('div');
-                    star.className = 'shooting-star';
-                    star.style.top = `${Math.random() * 100}vh`;
-                    star.style.animationDuration = `${Math.random() * 1.5 + 2}s`;
-                    starsContainer.appendChild(star);
-                    setTimeout(() => star.remove(), parseFloat(star.style.animationDuration) * 1000);
-                }
-                setInterval(createStar, Math.random() * 1400 + 800);
-            }
-        });
-
         // Generate Data URL
         function generateDataUrl() {
             var htmlCode = document.getElementById('htmlCode').value;
