@@ -31,8 +31,9 @@
     #editor {
       width: 70%;
       height: 100%;
-      overflow: hidden;
+      overflow: auto;
       opacity: 0.7;
+      text-align: left; /* Ensure editor content is left-aligned */
     }
     #sidebar {
       width: 30%;
@@ -46,6 +47,9 @@
       margin-left: 10px;
       font-family: monospace;
       opacity: 0.87;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      text-align: left; /* Ensure sidebar content is left-aligned */
     }
     .button {
       background-color: rgba(0, 0, 0, 0.8);
@@ -75,7 +79,6 @@
       border-radius: 5px;
       margin-bottom: 10px;
     }
-    /* Home Button Styles */
     .home-tab {
       position: fixed;
       bottom: 10px;
@@ -96,206 +99,174 @@
       color: black;
     }
   </style>
-  <!-- Load Monaco Editor from CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
 </head>
 <body>
-  <!-- Home Button -->
   <a href="index.html" class="home-tab">Home</a>
-
   <h1>Unblockee Code Editor</h1>
   <center>
-    <!-- Language Selection -->
     <select id="language">
       <option value="html">HTML</option>
       <option value="javascript">JavaScript</option>
       <option value="css">CSS</option>
     </select>
   </center>
-  <!-- Editor and Sidebar Container -->
   <div class="editor-container">
     <div id="editor"></div>
     <div id="sidebar"></div>
   </div>
-  <!-- Action Buttons -->
   <div class="button-container">
     <button class="button" onclick="formatCode()">Format Code</button>
     <button class="button" onclick="fixCode()">Fix Code</button>
     <button class="button" onclick="runCode()">Open in about:blank</button>
   </div>
-  <a>fix code got a werid glitch</a>
 
   <script>
-    // Configure Monaco Editor paths
     require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' }});
     require(['vs/editor/editor.main'], function() {
-      // Create the editor with default HTML code
       window.editor = monaco.editor.create(document.getElementById('editor'), {
         value: '<!DOCTYPE html>\n<html>\n<head>\n  <title>My Page</title>\n</head>\n<body>\n  <h1>Hello, World!</h1>\n</body>\n</html>',
         language: 'html',
         theme: 'vs-dark',
         automaticLayout: true,
         wordWrap: 'on',
-        scrollBeyondLastLine: false
+        scrollBeyondLastLine: false,
+        tabSize: 2,
+        insertSpaces: true,
+        renderWhitespace: 'none',
+        minimap: { enabled: false },
+        lineNumbers: 'on',
+        glyphMargin: false,
+        folding: true
       });
 
-      // Mirror content to sidebar in real-time
       editor.onDidChangeModelContent(() => {
         const content = editor.getValue();
-        document.getElementById('sidebar').textContent = content;
+        const sidebar = document.getElementById('sidebar');
+        sidebar.textContent = content;
       });
 
-      // Update language when selection changes
       document.getElementById('language').addEventListener('change', function() {
         monaco.editor.setModelLanguage(editor.getModel(), this.value);
       });
     });
 
-    // Format the code using Monaco's built-in formatter with better handling
     function formatCode() {
-      editor.getAction('editor.action.formatDocument').run().then(() => {
-        const model = editor.getModel();
-        const fullRange = model.getFullModelRange();
-        const formatted = model.getValue();
-        editor.executeEdits('formatCode', [{
-          range: fullRange,
-          text: formatted
-        }]);
-      }).catch(() => {
-        // Fallback basic formatting if Monaco fails
+      editor.getAction('editor.action.formatDocument').run().catch(() => {
         const code = editor.getValue();
         const lines = code.split('\n').map(line => line.trim());
         editor.setValue(lines.join('\n'));
       });
     }
 
-    // Enhanced code fixing based on language without adding extra newlines or random characters
     function fixCode() {
       const language = document.getElementById('language').value;
-      const code = editor.getValue();
+      let code = editor.getValue();
       let fixedCode = code;
 
-      if (language === 'javascript') {
-        try {
-          editor.getAction('editor.action.autoFix').run().then(() => {
-            let jsCode = editor.getValue();
-            const lines = jsCode.split('\n');
-            const fixedLines = lines.map(line => {
-              const trimmed = line.trim();
-              if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
-                  !trimmed.endsWith('}') && !trimmed.startsWith('//') && 
-                  !trimmed.includes('function') && !trimmed.endsWith(':')) {
-                return line.replace(trimmed, trimmed + ';');
-              }
-              return line;
+      switch (language) {
+        case 'javascript':
+          try {
+            editor.getAction('editor.action.autoFix').run().then(() => {
+              let jsCode = editor.getValue();
+              fixedCode = jsCode
+                .replace(/;+/g, ';')
+                .replace(/(\w+)\s*\(\s*/g, '$1(')
+                .replace(/\s*\{\s*/g, ' {\n')
+                .replace(/\s*\}\s*/g, '\n}')
+                .replace(/\n\s*\n/g, '\n');
+              editor.setValue(fixedCode);
+              formatCode();
             });
-            fixedCode = fixedLines.join('\n').replace(/\n\s*\n/g, '\n');
+          } catch (e) {
+            fixedCode = code
+              .split('\n')
+              .map(line => {
+                const trimmed = line.trim();
+                if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
+                    !trimmed.endsWith('}') && !trimmed.startsWith('//')) {
+                  return trimmed + ';';
+                }
+                return trimmed;
+              })
+              .join('\n')
+              .replace(/\n\s*\n/g, '\n');
             editor.setValue(fixedCode);
-          });
-        } catch (e) {
-          const lines = code.split('\n');
-          fixedCode = lines.map(line => {
-            const trimmed = line.trim();
-            if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
-                !trimmed.endsWith('}') && !trimmed.startsWith('//')) {
-              return line.replace(trimmed, trimmed + ';');
-            }
-            return line;
-          }).join('\n').replace(/\n\s*\n/g, '\n');
-          editor.setValue(fixedCode);
-        }
-      } else if (language === 'html') {
-        try {
-          const parser = new DOMParser();
-          let htmlContent = code.trim();
-          if (!htmlContent.match(/<!DOCTYPE\s+html>/i)) {
-            htmlContent = '<!DOCTYPE html>\n' + htmlContent;
           }
-          const doc = parser.parseFromString(htmlContent, 'text/html');
-          if (!doc.querySelector('parsererror')) {
-            fixedCode = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
-          } else {
-            let result = '<!DOCTYPE html>\n<html>';
-            const headMatch = htmlContent.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
-            const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-            
-            if (headMatch) {
-              result += '\n' + headMatch[0];
-            } else {
-              result += '\n<head></head>';
+          break;
+
+        case 'html':
+          try {
+            const parser = new DOMParser();
+            let htmlContent = code.trim();
+            if (!htmlContent.match(/<!DOCTYPE\s+html>/i)) {
+              htmlContent = '<!DOCTYPE html>\n' + htmlContent;
             }
-            
-            if (bodyMatch) {
-              result += '\n' + bodyMatch[0];
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            if (!doc.querySelector('parsererror')) {
+              fixedCode = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML
+                .replace(/\s*></g, '>\n<')
+                .replace(/\n\s*\n/g, '\n');
             } else {
-              const headEndIndex = headMatch ? htmlContent.indexOf('</head>') + 7 : htmlContent.indexOf('</html>');
-              let bodyContent = '';
-              if (headEndIndex > -1) {
-                bodyContent = htmlContent.substring(headEndIndex, htmlContent.indexOf('</html>') || htmlContent.length).trim();
-              } else {
-                bodyContent = htmlContent.replace(/<!DOCTYPE html>|<html[^>]*>|<\/html>|<head[^>]*>|<\/head>/gi, '').trim();
-              }
-              if (bodyContent) {
-                result += '\n<body>' + bodyContent + '</body>';
-              } else {
-                result += '\n<body></body>';
-              }
+              fixedCode = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n' + 
+                htmlContent.replace(/<!DOCTYPE[^>]*>|<html[^>]*>|<head[^>]*>|<\/head>|<body[^>]*>|<\/body>|<\/html>/gi, '').trim() + 
+                '\n</body>\n</html>';
             }
-            
-            result += '\n</html>';
-            fixedCode = result;
+            editor.setValue(fixedCode);
+            formatCode();
+          } catch (e) {
+            fixedCode = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\n' + 
+              code.trim() + 
+              '\n</body>\n</html>';
+            editor.setValue(fixedCode);
           }
-          fixedCode = fixedCode.replace(/\n\s*\n/g, '\n');
-          editor.setValue(fixedCode);
-          editor.trigger('', 'editor.action.formatDocument');
-        } catch (e) {
-          const bodyContent = code.replace(/<!DOCTYPE html>|<html[^>]*>|<\/html>|<head[^>]*>|<\/head>|<body[^>]*>|<\/body>/gi, '').trim();
-          fixedCode = '<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>' + 
-                     (bodyContent || '') + 
-                     '\n</body>\n</html>';
-          fixedCode = fixedCode.replace(/\n\s*\n/g, '\n');
-          editor.setValue(fixedCode);
-        }
-      } else if (language === 'css') {
-        try {
-          const lines = code.split('\n');
-          fixedCode = lines.map(line => {
-            const trimmed = line.trim();
-            if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
-                !trimmed.endsWith('}') && !trimmed.startsWith('/*') && 
-                !trimmed.endsWith('*/')) {
-              return line.replace(trimmed, trimmed + ';');
-            }
-            return line;
-          }).join('\n').replace(/\n\s*\n/g, '\n');
-          editor.setValue(fixedCode);
-          editor.trigger('', 'editor.action.formatDocument');
-        } catch (e) {
-          fixedCode = code.replace(/([^{};])\s*$/gm, '$1;').replace(/\n\s*\n/g, '\n');
-          editor.setValue(fixedCode);
-        }
+          break;
+
+        case 'css':
+          try {
+            fixedCode = code
+              .split('\n')
+              .map(line => {
+                const trimmed = line.trim();
+                if (trimmed && !trimmed.endsWith(';') && !trimmed.endsWith('{') && 
+                    !trimmed.endsWith('}') && !trimmed.startsWith('/*') && 
+                    !trimmed.endsWith('*/')) {
+                  return trimmed + ';';
+                }
+                return trimmed;
+              })
+              .join('\n')
+              .replace(/\n\s*\n/g, '\n')
+              .replace(/;+/g, ';');
+            editor.setValue(fixedCode);
+            formatCode();
+          } catch (e) {
+            fixedCode = code.replace(/([^{};])\s*$/gm, '$1;').replace(/\n\s*\n/g, '\n');
+            editor.setValue(fixedCode);
+          }
+          break;
       }
     }
 
-    // Run the code in a new about:blank tab
     function runCode() {
       const language = document.getElementById('language').value;
       const code = editor.getValue();
       const newWindow = window.open('about:blank');
+      
+      if (!newWindow) return;
 
-      if (language === 'javascript') {
-        newWindow.document.open();
-        newWindow.document.write('<html><body><script>' + code + '<\/script></body></html>');
-        newWindow.document.close();
-      } else if (language === 'html') {
-        newWindow.document.open();
-        newWindow.document.write(code);
-        newWindow.document.close();
-      } else if (language === 'css') {
-        newWindow.document.open();
-        newWindow.document.write('<html><body><style>' + code + '</style></body></html>');
-        newWindow.document.close();
+      switch (language) {
+        case 'javascript':
+          newWindow.document.write('<html><body><script>' + code + '<\/script></body></html>');
+          break;
+        case 'html':
+          newWindow.document.write(code);
+          break;
+        case 'css':
+          newWindow.document.write('<html><body><style>' + code + '</style></body></html>');
+          break;
       }
+      newWindow.document.close();
     }
   </script>
 </body>
