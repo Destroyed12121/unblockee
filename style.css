@@ -1,9 +1,443 @@
-/* CSS is how you can add style to your website, such as colors, fonts, and positioning of your
-   HTML content. To learn how to do something, just try searching Google for questions like
-   "how to change link color." */
+/* Theme Variables */
+:root {
+  --base-color: #000000;
+  --base-color-dark: #0a0a0a;
+  --base-color-mid: #111111;
+  --base-color-light: #1a1a1a;
+  --base-color-lighter: #222222;
+  --theme-background: linear-gradient(to bottom, var(--base-color), var(--base-color-dark), var(--base-color-mid), var(--base-color-light), var(--base-color-lighter));
+}
 
+/* General Styles */
 body {
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  overflow-y: auto;
+  background: var(--theme-background);
+  min-height: 100vh;
+}
+
+h1 {
+  margin-top: 50px;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Effects Container */
+.effects-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Toggle View Button */
+#toggle-view {
+  position: fixed;
+  bottom: 10px;
+  left: 25px;
+  padding: 10px 20px;
+  background: black;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+#toggle-view:hover {
+  background: #333;
+}
+
+#website-list.websites {
+  margin-top: 50px;
+}
+
+#website-list .website-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+#website-list .websites {
+  width: 200px;
+  height: 66px;
+  margin: 4px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap: break-word;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(3px);
+  z-index: 10;
+  transform: scale(1.0);
+  transition: transform 0.2s, opacity 0.1s;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+  padding: 10px;
+  font-weight: bold;
+  opacity: 0.85;
+}
+
+#website-list .websites:hover {
+  opacity: 0.95;
+  transform: scale(1.20);
+}
+
+/* Game List Styles */
+.game-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 20;
+  overflow-y: auto;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.game {
+  width: 120px;
+  text-align: center;
+}
+
+.game img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.game a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+.game.text-only a {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.game.text-only a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Content Styles */
+.custom-content {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.content-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 10px 20px;
+  margin: 0;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.content-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.content-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#buttonContainer .content-button {
+  flex: 0 0 auto;
+}
+
+.small-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 5px 10px;
+  margin: 5px 0 0 0;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+.small-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.small-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -180px;
+  width: 200px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 10;
+  transition: left 0.3s ease;
+  overflow-y: auto;
+}
+
+.sidebar:hover {
+  left: 0;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  padding: 10px 0;
+}
+
+.sidebar li span,
+.sidebar li a {
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  text-shadow: 1px 1px 2px black;
+}
+
+.sidebar li:hover span,
+.sidebar li:hover a {
   background-color: white;
   color: black;
-  font-family: Verdana;
+}
+
+.sidebar-note {
+  font-size: 12px;
+  padding: 5px 10px;
+  text-transform: none;
+}
+
+/* Changelog Content Styles */
+.changelog-content {
+  position: fixed;
+  bottom: 60px;
+  left: 210px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 14px;
+  padding: 15px;
+  width: 250px;
+  height: 200px;
+  border-radius: 10px;
+  display: none;
+  z-index: 10;
+  overflow-y: auto;
+}
+
+.changelog-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.changelog-content li {
+  margin-bottom: 10px;
+}
+
+/* Settings Overlay Styles */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.settings-content {
+  background: rgba(0, 0, 0, 0.9);
+  border-radius: 15px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #333;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6a1b9a;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+
+select {
+  background: #333;
+  color: white;
+  padding: 5px;
+  border: none;
+  border-radius: 3px;
+}
+
+/* Animation Styles */
+.dot {
+  position: absolute;
+  width: 2.3px;
+  height: 2.3px;
+  background: white;
+  animation: moveDot 5s linear infinite;
+}
+
+@keyframes moveDot {
+  0% { transform: translate(50vw, 50vh) scale(1); }
+  100% { transform: translate(-50vw, -50vh) scale(0); }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 8.5px;
+  height: 8.5px;
+  background: #7207e6;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(110, 43, 181, 0.895);
+  animation: shoot 50s linear forwards;
+}
+
+.shooting-star::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 3px;
+  background: linear-gradient(135deg, rgba(131, 14, 255, 0.8), transparent 100%);
+  transform: rotate(135deg);
+  transform-origin: right center;
+  top: 50%;
+  right: 6px;
+  animation: trail-fade 5s linear forwards;
+}
+
+@keyframes shoot {
+  0% { transform: translate(120vw, -50vh); opacity: 1; }
+  100% { transform: translate(-40vw, 50vh); opacity: 0; }
+}
+
+@keyframes trail-fade {
+  0% { opacity: 0.95; width: 150px; }
+  100% { opacity: 0.2; width: 0; }
 }
