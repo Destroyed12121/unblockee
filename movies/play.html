@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../../pluginstuff.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unblockee Play</title>
+    <meta name="referrer" content="origin" />
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="52bfea34-46bb-49d1-976f-a5252508ddef"></script>
+
+</head>
+<body>
+    <div class="container">
+
+    <div id="movie-title" style="font-size:2rem;font-weight:700;margin:12px 0;text-align:center;word-break:break-word;">Loading title...</div>
+    <small>if it gives an error keep refreshing or change server, should go away</small>
+
+        <div class="server-select-container" style="text-align:left;">
+            <label for="serverSelect" style="margin-right:8px;">Choose Server:</label>
+            <select id="serverSelect"></select>
+        </div>
+
+        <div id="iframe-container">
+            <div class="iframe-controls" style="position:absolute; top:10px; right:12px; z-index:10;">
+                <i id="fullscreen-btn" class="fas fa-expand" style="cursor:pointer; font-size:18px;"></i>
+            </div>
+            <i id="close-btn" class="fas fa-times" style="position:absolute; top:10px; left:12px; cursor:pointer; z-index:10;"></i>
+            <object id="movie-object" type="text/html" data=""></object>
+        </div>
+
+        <div id="bottom-fullscreen-btn" title="Toggle Fullscreen"><i class="fas fa-expand"></i> Fullscreen</div>
+        <div class="spinner" id="play-spinner"></div>
+        <div id="fullscreen-error">Fullscreen may be blocked by the provider. Try the player's built-in fullscreen button if present.</div>
+        <div id="credits-bar">Credits to tf7software, InfinityLoop, and the LupineVault organization</div>
+    </div>
+
+    <script src="../../sidebar/sidebar.js" defer></script>
+    <script src="../movies/watchPlay.js" defer></script>
+</body>
+    <style>
+        body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: #0b0b0d; color: #fff; margin:0; padding:0;}
+        .container { padding: 18px; max-width: 1200px; margin: 0 auto; }
+        small { display:block; color: #bbb; margin-bottom: 8px; text-align:center; }
+        #movie-title { font-size: 1.1rem; font-weight:700; margin: 12px 0; text-align:center; word-break:break-word; }
+        #iframe-container { width: 100%; max-width: 1200px; margin: 12px auto; position:relative; }
+        #movie-object { width:100%; height:70vh; border:none; border-radius:12px; overflow:hidden; background:#000; display:block; }
+        #fullscreen-error { display:none; color:#ff7b7b; text-align:center; margin-top:10px; }
+        .server-select-container { display:inline-block; padding:10px; border-radius:6px; margin:8px auto; background:transparent; color:#fff; }
+        .server-select-container select { background:#222; color:#fff; border:1px solid #333; padding:6px 8px; border-radius:4px; }
+        #bottom-fullscreen-btn { display:block; margin:10px auto; padding:8px 12px; cursor:pointer; text-align:center; background:#1b1b1b; border-radius:6px; width:160px; }
+        #credits-bar { margin-top:16px; text-align:center; color:#bbb; font-size:12px; }
+        .spinner { display:none; text-align:center; margin-top:12px; }
+        .spinner.visible { display:block; }
+        .spinner:after { content:''; display:inline-block; width:28px; height:28px; border-radius:50%; border:4px solid rgba(255,255,255,0.12); border-top-color:#fff; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            #iframe-container { width: 100% !important; margin: 8px 6px; }
+            #movie-object { height: 60vh !important; border-radius:8px; }
+            #movie-title { font-size: 1rem; margin:8px 6px; }
+            .server-select-container { display:block; text-align:center; margin:8px auto; }
+        }
+    </style>
+        <script src="../../pluginstuff.js"></script>
+</html>

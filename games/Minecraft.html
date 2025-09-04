@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+    <script src="../pluginstuff.js"></script>
+    <title>Minecraft</title>
+</head>
+<body>
+    <object data="https://minecraftfrfr.surge.sh" height="100%" width="100%"></object>
+    <object id="loading" data="../loading.html" height="100%" width="100%"></object>
+    <script>
+        const mainObject = document.querySelector('object');
+        const loadingElement = document.getElementById('loading');
+        
+        mainObject.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingElement.style.opacity = '0';
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+    
+        mainObject.addEventListener('error', () => {
+            loadingElement.style.opacity = '1';
+            loadingElement.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

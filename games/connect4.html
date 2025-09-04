@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+    <script src="../pluginstuff.js"></script>
+    <title>connect4</title>
+    <style>
+        /* Reset default margins and padding */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevents scrollbars if content overflows */
+        }
+
+        /* Ensure the object fills the entire viewport */
+        object {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: none; /* Removes any default borders */
+        }
+    </style>
+</head>
+<body>
+    <object data="https://kevinshannon.com/connect4/" height="100%" width="100%"></object>
+    <object id="loading" data="../loading.html" height="100%" width="100%"></object>
+
+    <script>
+        // Hide the loading screen once the main object is loaded
+        document.querySelector('object').addEventListener('load', function() {
+            const loadingElement = document.getElementById('loading');
+            // Wait 1 second before starting the fade
+            setTimeout(() => {
+                loadingElement.style.transition = 'opacity 0.5s ease'; // Add transition property
+                loadingElement.style.opacity = '0'; // Fade out
+                
+                // Remove from display after fade is complete
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                }, 500); // Matches the 0.5s transition duration
+            }, 2000); // 1-second delay before fade starts
+        });
+    
+        // Show the loading screen if the main object fails to load
+        document.querySelector('object').addEventListener('error', function() {
+            const loadingElement = document.getElementById('loading');
+            loadingElement.style.transition = 'opacity 0.5s ease'; // Add transition property
+            loadingElement.style.opacity = '1'; // Ensure it's visible
+            loadingElement.style.display = 'block';
+        });
+    </script>
+    
+</body>
+</html>

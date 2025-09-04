@@ -1,0 +1,137 @@
+<!-- sidebar.html -->
+<div class="sidebar" role="navigation" aria-label="Main navigation">
+    <button class="content-button sidebar-title" onclick="navigateToIndex()" aria-label="Return to Unblockee homepage">Unblockee</button>
+    <ul>
+        <li><button class="sidebar-item" onclick="toggleChangelog()" aria-label="Toggle changelog">Changelog</button></li>
+        <li><a class="sidebar-item" href="/chat/chatcloak.html" aria-label="Open chat">Chat</a></li>
+        <li><a class="sidebar-item" href="/movies/select.html" aria-label="Browse movies">Movies</a></li>
+        <li><a class="sidebar-item" href="/active/index.html" aria-label="Access prxy">Proxy</a></li>
+        <li><button class="sidebar-item" onclick="toggleSettings()" aria-label="Open settings">Settings</button></li>
+        <li><a class="sidebar-item" href="/disablers/disablermenu.html" aria-label="Open extension disabler">Extension Disabler</a></li>
+        <li><a class="sidebar-item" href="/Coderunner.html" aria-label="Open code runner">Code Runner</a></li>
+        <li><a class="sidebar-item" href="/DataUrl.html" aria-label="Open data URL generator">DataUrlGen</a></li>
+        <li><a class="sidebar-item" href="/Discord.html" aria-label="Discord">Discord</a></li>
+        <li class="sidebar-note" aria-hidden="true">Proxy and Movies won’t work on Neocities</li>
+    </ul>
+</div>
+
+<div class="changelog-content" id="changelog-content" role="region" aria-label="Changelog">
+    <strong>Changelog:</strong>
+    <ul>
+        
+        <li>Date of creation: 1/16/25 v4.1.1</li>
+<li>Revamp on movies, works alot better now</li>
+    </ul>
+</div>
+
+<div class="settings-overlay settings-overlay--scoped" id="settings-overlay" role="dialog" aria-label="Settings" aria-modal="true">
+    <div class="settings-content">
+        <div class="settings-header">
+            <h2 id="settings-title">Settings</h2>
+            <button class="close-btn" onclick="toggleSettings()" aria-label="Close settings">×</button>
+        </div>
+        <div class="settings-container">
+            <div class="settings-tabs" role="tablist" aria-label="Settings categories">
+                <button class="tab active" data-tab="general" role="tab" aria-selected="true" aria-controls="general">General</button>
+                <button class="tab" data-tab="cloaking" role="tab" aria-selected="false" aria-controls="cloaking">Cloaking</button>
+                <button class="tab" data-tab="appearance" role="tab" aria-selected="false" aria-controls="appearance">Appearance</button>
+            </div>
+            <div class="settings-body">
+                <div class="tab-content active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="setting-item">
+                        <label for="performance-mode-toggle">Performance Mode <small>(disables visual effects)</small></label>
+                        <label class="switch">
+                            <input type="checkbox" id="performance-mode-toggle" aria-describedby="performance-mode-desc">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label for="anti-close">Anti-Close <small>(prevents extensions from closing this tab)</small></label>
+                        <label class="switch">
+                            <input type="checkbox" id="anti-close" aria-describedby="anti-close-desc">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label for="clear-cache-button">Clear Cache <small>(removes all cached assets, needed for each update)</small></label>
+                        <button class="small-button" id="clear-cache-button" onclick="clearCache()" aria-label="Clear all cached assets">Clear Cache</button>
+                    </div>
+                </div>
+                <div class="tab-content" id="cloaking" role="tabpanel" aria-labelledby="cloaking-tab">
+                    <div class="setting-item">
+                        <label for="auto-about-blank">Auto Open in about:blank</label>
+                        <label class="switch">
+                            <input type="checkbox" id="auto-about-blank" aria-describedby="auto-about-blank-desc">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div style="text-align: right;">
+                        <button class="small-button" id="open-now-button" onclick="openInAboutBlankNow()" aria-label="Open in about:blank now">Open in about:blank now</button>
+                    </div>
+                    <div class="setting-item">
+                        <label for="cloak-select">Change Cloak</label>
+                        <select id="cloak-select" name="cloak" data-cloak-select aria-describedby="cloak-select-desc">
+                            <option value="default">Wikipedia (default)</option>
+                            <option value="Google">Google</option>
+                            <option value="Edpuzzle">Edpuzzle</option>    
+                            <option value="Classroom">Google Classroom</option>
+                            <option value="powerschool">PowerSchool</option>
+                            <option value="Canva">Canva</option>
+                            <option value="Quiz">Quiz</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="panic-key">Panic Key <small id="panic-key-desc">Current: Escape</small></label>
+                        <input type="text" id="panic-key" placeholder="Click to set key" value="Escape" readonly aria-describedby="panic-key-desc">
+                    </div>
+                    <div class="setting-item">
+                        <label for="panic-url">Panic Redirect URL <small>(e.g., https://edpuzzle.com)</small></label>
+                        <input type="text" id="panic-url" placeholder="Enter redirect URL" aria-describedby="panic-url-desc">
+                    </div>
+                </div>
+                <div class="tab-content" id="appearance" role="tabpanel" aria-labelledby="appearance-tab">
+                    <div class="setting-item">
+                        <label for="theme-select">Theme</label>
+                        <select id="theme-select" aria-describedby="theme-select-desc">
+                            <option value="dark">Dark</option>
+                            <option value="night">Night</option>
+                            <option value="og">OG</option>
+                            <option value="fortnite">Fortnite</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    <div class="setting-item custom-theme-settings">
+                        <label for="custom-bg-color">Custom Background Color</label>
+                        <input type="color" id="custom-bg-color" value="#000000" aria-describedby="custom-bg-color-desc">
+                    </div>
+                    <div class="setting-item custom-theme-settings">
+                        <label for="custom-gradient">Custom Gradient</label>
+                        <input type="text" id="custom-gradient" placeholder="e.g., linear-gradient(to bottom, #000, #111)" aria-describedby="custom-gradient-desc">
+                    </div>
+                    <div class="setting-item custom-theme-settings">
+                        <label for="custom-video-url">Custom Video URL</label>
+                        <input type="text" id="custom-video-url" placeholder="e.g., https://example.com/video.mp4" aria-describedby="custom-video-url-desc">
+                    </div>
+                    <div class="setting-item">
+                        <label for="effect-density-select">Effect Density</label>
+                        <select id="effect-density-select" aria-describedby="effect-density-select-desc">
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="dot-speed-select">Dot Speed</label>
+                        <select id="dot-speed-select" aria-describedby="dot-speed-select-desc">
+                            <option value="slow">Slow</option>
+                            <option value="normal">Normal</option>
+                            <option value="fast">Fast</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="effects-container"></div>

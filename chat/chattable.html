@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat</title>
+    <script src="https://iframe.chat/scripts/main.min.js"></script>
+    <script src="../pluginstuff.js" defer></script>
+    <script src="../sidebar/sidebar.js" defer></script>
+</head>
+<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #36393F;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #chattable {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+    <object data='https://iframe.chat/embed?chat=51586282' id='chattable' type="text/html"></object>
+    
+    <script>
+        chattable.initialize({
+            theme: "Amber"
+        });
+    </script>
+</body>
+</html>

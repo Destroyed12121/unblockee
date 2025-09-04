@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies</title>
+    <meta name="referrer" content="origin" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body class="movies-page visual-effects-enabled">
+    <div class="background"></div>
+    <div class="stars-container"></div>
+
+    <div id="mainContent">
+        <h1>Unblockee Movies</h1>
+        <a href="info.html">Info</a>
+        <div id="tabs">
+            <div id="movies-tab" class="tab active">Movies</div>
+            <div id="tv-shows-tab" class="tab">TV Shows</div>
+        </div>
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search for movies or TV shows...">
+        </div>
+        <div id="movies" class="content-container"></div>
+        <div id="tv-shows" class="content-container" style="display:flex;"></div>
+
+        <div id="season-episode-explorer">
+            <div id="season-episode-container">
+                <div id="season-episode-header">
+                    <h3>Select a Season and Episode</h3>
+                    <i id="close-season-episode" class="fas fa-times"></i>
+                </div>
+                <div id="seasons-container"></div>
+                <div id="episodes-container"></div>
+            </div>
+        </div>
+
+        <div id="overlay">
+            <div id="iframe-container">
+                <div class="iframe-controls">
+                    <i id="fullscreen-btn" class="fas fa-expand"></i>
+                </div>
+                <i id="close-btn" class="fas fa-times"></i>
+                <iframe id="movie-iframe" scrolling="no" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div id="credits-bar">Credits to tf7software, InfinityLoop, and the LupineVault organization</div>
+    </div>
+
+    <script src="../movies/watchSelect.js"></script>
+    <script src="../../pluginstuff.js"></script>
+    <script src="../../sidebar/sidebar.js" defer></script>
+</body>
+  <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            overflow-y: auto;
+            background: var(--theme-background);
+            min-height: 100vh;
+        }
+
+        :root {
+            --base-color: #000000;
+            --base-color-dark: #0a0a0a;
+            --base-color-mid: #111111;
+            --base-color-light: #1a1a1a;
+            --base-color-lighter: #222222;
+            --theme-background: linear-gradient(to bottom, var(--base-color), var(--base-color-dark), var(--base-color-mid), var(--base-color-light), var(--base-color-lighter));
+            --primary-blue: rgba(0, 123, 255, 0.8);
+            --hover-blue: rgba(0, 123, 255, 1);
+            --glow-color: rgba(4, 4, 141, 0.664);
+            --ripple-color: rgba(32, 50, 8, 0.15);
+            --transition-speed: 0.3s;
+        }
+        
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10000;
+            background: var(--theme-background);
+        }
+
+        h1 {
+            margin-top: 2.917vh;
+        }
+
+        h3 {
+            margin: 1.042vh 0;
+        }
+
+        #mainContent {
+            padding: 1.172vw;
+            position: relative;
+            z-index: 1;
+        }
+
+        #search-bar {
+            margin: 2.083vh auto;
+            max-width: 35.156vw;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 0.586vw;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: none;
+            border-radius: 0.293vw;
+            font-size: 0.820vw;
+        }
+
+        #tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.176vw;
+            margin: 2.083vh 0;
+        }
+
+        .tab {
+            padding: 0.586vw 1.172vw;
+            color: #fff;
+            background: rgba(53, 83, 10, 0.1);
+            border-radius: 0.293vw;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .tab.active {
+            background: #fff;
+            color: #000;
+        }
+
+        .content-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.586vw;
+            margin: 2.083vh auto;
+        }
+
+        .media-item {
+            width: 7.910vw;
+            text-align: center;
+            margin: 0.293vw;
+            background: rgba(53, 83, 10, 0.1);
+            border-radius: 0.293vw;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .media-item img {
+            width: 100%;
+            border-radius: 0.586vw;
+        }
+
+        .media-item p {
+            margin: 0.521vh 0;
+            font-size: 0.820vw;
+            color: #fff;
+        }
+
+        .season-card {
+            width: 5.859vw;
+            padding: 0.586vw;
+            text-align: center;
+            background: rgba(53, 83, 10, 0.1);
+            border-radius: 0.293vw;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .episode-card {
+            width: 11.719vw;
+            padding: 0.586vw;
+            background: rgba(53, 83, 10, 0.1);
+            border-radius: 0.293vw;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .episode-card h3 {
+            margin: 0;
+            font-size: 0.820vw;
+        }
+
+        #season-episode-explorer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #season-episode-container {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1.172vw;
+            border-radius: 0.879vw;
+            width: 80%;
+            max-width: 29.297vw;
+            position: relative;
+        }
+
+        #seasons-container,
+        #episodes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.586vw;
+            margin: 1.042vh 0;
+        }
+
+        #close-season-episode {
+            position: absolute;
+            top: 0.586vw;
+            right: 0.586vw;
+            color: #fff;
+            font-size: 1.406vw;
+            cursor: pointer;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 80%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #iframe-container {
+            position: relative;
+            width: 60%;
+            max-width: 70.313vw;
+        }
+
+        #movie-iframe {
+            width: 100%;
+            height: 70vh;
+            border: none;
+            border-radius: 0.586vw;
+        }
+        
+        :fullscreen #iframe-container,
+        :-webkit-full-screen #iframe-container,
+        :-moz-full-screen #iframe-container {
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            max-width: none !important;
+        }
+
+        :fullscreen #movie-iframe,
+        :-webkit-full-screen #movie-iframe,
+        :-moz-full-screen #movie-iframe {
+            height: 100% !important;
+            width: 100% !important;
+            border-radius: 0 !important;
+        }
+
+        .iframe-controls {
+            position: absolute;
+            top: 0.586vw;
+            left: 0.586vw;
+        }
+
+        #fullscreen-btn,
+        #close-btn {
+            color: #fff;
+            font-size: 1.406vw;
+            cursor: pointer;
+            margin: 0.293vw;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.293vw;
+            border-radius: 0.293vw;
+            transition: all var(--transition-speed) ease;
+        }
+
+        #close-btn {
+            position: absolute;
+            top: 0.586vw;
+            right: 0.586vw;
+        }
+        
+        #credits-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            padding: 0.521vh 0;
+            font-size: 0.703vw;
+            z-index: 1001;
+        }
+
+        /* Animations for visual effects */
+        .visual-effects-enabled .tab:hover,
+        .visual-effects-enabled .media-item:hover,
+        .visual-effects-enabled .season-card:hover,
+        .visual-effects-enabled .episode-card:hover,
+        .visual-effects-enabled #fullscreen-btn:hover,
+        .visual-effects-enabled #close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+            animation: rotateGlow 3s linear infinite;
+            z-index: 1000;
+            position: relative;
+        }
+        
+        .visual-effects-enabled .tab::before,
+        .visual-effects-enabled .media-item::before,
+        .visual-effects-enabled .season-card::before,
+        .visual-effects-enabled .episode-card::before,
+        .visual-effects-enabled #fullscreen-btn::before,
+        .visual-effects-enabled #close-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--ripple-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.15s ease, height 0.15s ease;
+        }
+
+        .visual-effects-enabled .tab:hover::before,
+        .visual-effects-enabled .media-item:hover::before,
+        .visual-effects-enabled .season-card:hover::before,
+        .visual-effects-enabled .episode-card:hover::before,
+        .visual-effects-enabled #fullscreen-btn:hover::before,
+        .visual-effects-enabled #close-btn:hover::before {
+            width: 300%;
+            height: 300%;
+        }
+
+        @keyframes rotateGlow {
+            0% { box-shadow: 0 0 1.172vw var(--glow-color); }
+            50% { box-shadow: 0 0 1.758vw var(--glow-color); }
+            100% { box-shadow: 0 0 1.172vw var(--glow-color); }
+        }
+
+        body:not(.visual-effects-enabled) .media-item:hover,
+        body:not(.visual-effects-enabled) .tab:hover,
+        body:not(.visual-effects-enabled) .season-card:hover,
+        body:not(.visual-effects-enabled) .episode-card:hover,
+        body:not(.visual-effects-enabled) #fullscreen-btn:hover,
+        body:not(.visual-effects-enabled) #close-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- New Mobile-Specific CSS Starts Here --- */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            h3 {
+                font-size: 16px;
+            }
+
+            #mainContent {
+                padding: 10px;
+            }
+
+            #search-bar {
+                max-width: 90%;
+            }
+
+            #search-input {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            #tabs {
+                margin: 20px 0;
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .content-container {
+                gap: 10px;
+            }
+
+            .media-item {
+                width: 30vw; /* Adjusts poster width to fit more on a screen */
+                margin: 5px;
+            }
+
+            .media-item p {
+                font-size: 12px;
+                margin: 5px 0;
+            }
+            
+            .season-card {
+                width: 40%;
+                font-size: 14px;
+            }
+
+            .episode-card {
+                width: 100%;
+            }
+
+            .episode-card h3 {
+                font-size: 14px;
+            }
+            
+            #season-episode-container {
+                width: 90%;
+                max-width: none;
+            }
+
+            #close-season-episode {
+                font-size: 24px;
+            }
+
+            #iframe-container {
+                width: 90%;
+            }
+
+            #movie-iframe {
+                height: 50vh;
+            }
+
+            #fullscreen-btn,
+            #close-btn {
+                font-size: 24px;
+            }
+        }
+    </style>
+</html>

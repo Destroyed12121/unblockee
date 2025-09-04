@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z14CF8WQ1J"></script>
+    <script src="../pluginstuff.js"></script>
+    <title>Happy Wheels</title>
+    <style>
+        /* Reset default margins and padding */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevents scrollbars if content overflows */
+        }
+
+        /* Ensure the object fills the entire viewport */
+        object {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: none; /* Removes any default borders */
+        }
+        #loading {
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <object data="https://happywheelsfrfr.surge.sh" height="100%" width="100%"></object>
+    <object id="loading" data="../loading.html" height="100%" width="100%"></object>
+
+    <script>
+        const mainObject = document.querySelector('object');
+        const loadingElement = document.getElementById('loading');
+        
+        mainObject.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingElement.style.opacity = '0';
+                setTimeout(() => {
+                    loadingElement.style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+    
+        mainObject.addEventListener('error', () => {
+            loadingElement.style.opacity = '1';
+            loadingElement.style.display = 'block';
+        });
+    </script>
+    
+</body>
+</html>

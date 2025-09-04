@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UV Static v2</title>
+    <script src="check.js" defer></script>
+    <script defer src="scripts/lstimer.js"></script>
+
+    <link rel="stylesheet" href="style/global.css" />
+    <link rel="stylesheet" href="style/browser.css" />
+    <script src="../pluginstuff.js"></script>
+    <script src="../sidebar/sidebar.js"></script>
+    
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/gh/vanjs-org/van/public/van-1.5.2.nomodule.min.js"
+    ></script>
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="../pluginstuff.js"></script>
+    <script src="uv/uv.bundle.js" defer></script>
+    <script src="uv/uv.config.js" defer></script>
+    <script src="scripts/tabs.mjs" type="module" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/gh/tf7software/Font-Awesome-pro-cdn@main/js/all.js"></script>
+    <style>
+      body {padding: 0;margin: 0; overflow: hidden;}
+    </style>
+  </head>
+
+  <body>
+    <div id="small-screen-overlay">
+      UV Static 2.0 doesn't support smaller screens. Please use UV Static 2.0 on a larger screen.
+    </div>
+
+    <div id="app-top-bar">
+      <div id="tab-bar">
+        <div id="tab-list">
+          </div>
+        <button id="new-tab-button" class="hover-focus2" title="New Tab">
+          <ion-icon name="add-outline" class="icon"></ion-icon>
+        </button>
+        <button id="devtools-icon-btn" class="hover-focus2" title="Developer Tools">
+            <ion-icon name="code-slash-outline" class="icon"></ion-icon>
+        </button>
+      </div>
+      <div id="controls-and-url-bar">
+        <div id="page-controls">
+          <button onclick="window.location.href='/'" title="Home">
+            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <svg
+   width="28px" 
+   height="28px" 
+   viewBox="0 0 38.454208 24.726074"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-145.0951,-136.5279)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:32.9681px;font-family:'Dallas Print Shop';-inkscape-font-specification:'Dallas Print Shop';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#5a32e3;fill-opacity:1;stroke-width:2.74734"
+       x="142.33917"
+       y="161.25397"
+       id="text2"><tspan
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Krungthep;-inkscape-font-specification:Krungthep;fill:#5a32e3;fill-opacity:1;stroke-width:2.74734"
+         x="142.33917"
+         y="161.25397">v2</tspan></text>
+  </g>
+</svg>
+          </button>
+          <button id="page-back" title="Back">
+            <ion-icon name="arrow-back-outline" class="icon hover-focus1"></ion-icon>
+          </button>
+          <button id="page-forward" title="Forward">
+            <ion-icon name="arrow-forward-outline" class="icon hover-focus1"></ion-icon>
+          </button>
+          <button id="page-refresh" title="Refresh">
+            <ion-icon name="refresh-outline" class="icon hover-focus1"></ion-icon>
+          </button>
+        </div>
+        <form id="url-form">
+          <input
+            type="text"
+            id="url-input"
+            onfocus="this.setSelectionRange(0, this.value.length)"
+            class="hover-focus2"
+            placeholder="Search or enter URL"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+          />
+        </form>
+        </div>
+    </div>
+
+    <div id="main-content-area">
+        <div id="tab-view">
+            </div>
+    </div>
+
+    </body>
+</html>

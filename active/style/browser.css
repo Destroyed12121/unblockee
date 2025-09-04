@@ -1,0 +1,240 @@
+/* Add these new styles or modify existing ones in browser.css */
+/* Ensure to remove or comment out conflicting styles from the old .sidebar-container and its header */
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+#app-top-bar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #1e1e1e; 
+    border-bottom: 1px solid rgba(31, 31, 31, 0.5);
+    position: fixed; 
+    top: 0;
+    left: 0;
+    z-index: 1500; 
+}
+
+#tab-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.2rem 0.5rem; 
+    background-color: #252525; 
+    min-height: 30px; 
+    overflow-x: auto; 
+    overflow-y: hidden;
+}
+
+#tab-list {
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+    gap: 0.3rem; 
+    height: 100%;
+    flex-grow: 1; 
+}
+
+#tab-list .tab-item {
+    position: relative;
+    display: flex;
+    gap: 0.4rem; 
+    border-radius: 4px 4px 0 0; 
+    background: rgba(226, 226, 226, 0.1);
+    justify-content: center; 
+    align-items: center; 
+    cursor: pointer;
+    border: 1px solid rgba(226, 226, 226, 0.2);
+    border-bottom: none; 
+    padding: 0.3rem 0.6rem; 
+    font: inherit;
+    color: inherit;
+    font-weight: 400; 
+    font-size: 0.85em; 
+    min-width: 120px; 
+    max-width: 180px; 
+    animation: none; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: calc(100% - 1px); 
+    box-sizing: border-box;
+}
+
+#tab-list .tab-item img {
+    height: 1em; 
+    width: 1em;
+    margin-right: 0.3rem; 
+}
+
+#tab-list .tab-item span {
+    font-size: 0.9em;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    flex-grow: 1;
+}
+
+#tab-list .tab-item .close {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px; 
+    margin-left: 0.3rem; 
+    transition: 0.15s ease;
+}
+
+#tab-list .tab-item .close:hover {
+    background-color: rgba(226, 226, 226, 0.25);
+}
+
+#tab-list .tab-item .close .close-icon {
+    font-size: 1rem; 
+    color: rgba(220, 220, 220, 0.7);
+    height: 1rem;
+    width: 1rem;
+}
+#tab-list .tab-item:hover .close-icon{
+    color: #dcdcdc;
+}
+
+
+#tab-list .tab-item.selectedTab {
+    background: rgba(226, 226, 226, 0.25); 
+    border-bottom: 1px solid transparent; 
+}
+
+#new-tab-button, #devtools-icon-btn { 
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 1.3rem; 
+    padding: 0.2rem 0.4rem; 
+    border-radius: 4px;
+    margin-left: 0.3rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#new-tab-button .icon, #devtools-icon-btn .icon {
+    font-size: 1.5em;
+}
+
+
+#controls-and-url-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0.5rem; 
+    background-color: #1e1e1e; 
+    gap: 0.5rem; 
+}
+
+#page-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem; 
+}
+
+#page-controls button { /* Removed #menu-controls button here */
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+    padding: 0.3rem; 
+    border-radius: 4px;
+}
+
+#page-controls button .icon { /* Removed #menu-controls button .icon */
+    font-size: 1.3rem; 
+    display: block; 
+}
+
+#page-controls button[title="Home"] svg {
+    display: block;
+    fill: #5a32e3; 
+}
+#page-controls button[title="Home"] {
+    padding: 2px; 
+}
+
+
+#url-form {
+    flex-grow: 1; 
+    display: flex;
+}
+
+#url-form input#url-input {
+    background-color: rgba(226, 226, 226, 0.15);
+    border: none;
+    outline: none;
+    color: inherit;
+    font: inherit;
+    padding: 0.5rem 0.8rem; 
+    box-sizing: border-box;
+    border-radius: 4px; 
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+/* Removed #menu-controls styles as the container is gone */
+
+#main-content-area {
+    flex-grow: 1;
+    padding-top: 75px; /* Adjust this based on the actual height of #app-top-bar */
+    height: calc(100vh - 75px); 
+    overflow: hidden; 
+}
+
+#tab-view {
+    width: 100%;
+    height: 100%;
+    display: flex; 
+    background-color: #121212; 
+}
+
+#tab-view .tab-frame {
+    height: 100%; 
+    width: 100%;
+    background-color: white; 
+    border: none; 
+    outline: none;
+}
+
+.sidebar-container, .sidebar-container header {
+    display: none; 
+}
+
+/* Menu Overlay styles removed or commented out */
+/*
+#menu-overlay { ... }
+#menu-overlay.active { ... }
+.option { ... }
+.option:hover { ... }
+*/
+
+.r-alert{position:fixed;top:20px;right:20px;width:auto;padding:8px;background-color:#1b1b1b;border:1px solid #2c2c2c;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.1);transition:transform .15s ease;z-index:2500;color:rgba(255,255,255,.9)}
+.r-alert p{margin:0;font-size:14.5px}
+
+
+#small-screen-overlay{display:none;position:fixed;justify-content:center;align-items:center;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.9);color:#fff;text-align:center;padding:none;z-index:3000}
+#small-screen-overlay p{margin:0 auto;width:50%;font-size:20px}
+@media(max-width: 600px){#small-screen-overlay{display:flex} #app-top-bar, #main-content-area {display: none;}} /* Removed #menu-overlay from here */
+
+::-webkit-scrollbar{width:8px;height:8px} 
+::-webkit-scrollbar-track{background:rgba(30,30,30,0.5)} 
+::-webkit-scrollbar-thumb{background:#5a32e3;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#7b55f0}
