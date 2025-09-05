@@ -26,7 +26,7 @@ export async function getUV(input) {
     throw err;
   }
 
-  let url = search(input, "https://duckduckgo.com/?q=%s");
+  let url = search(input, "https://html.duckduckgo.com/html?t=h_&q=%s");
 
   let wispUrl = "wss://wisp.rhw.one/";
   if ((await connection.getTransport()) !== "/active/prxy/epoxy/index.mjs") {
@@ -34,7 +34,7 @@ export async function getUV(input) {
       { wisp: wispUrl },
     ]);
   }
-  if ((await connection.getTransport()) !== "/active/prxy/libcurl/libcurl.mjs") {
+  if ((await connection.getTransport()) !== "/activeprxy/libcurl/libcurl.mjs") {
     await connection.setTransport("/active/prxy/libcurl/libcurl.mjs", [
       { wisp: wispUrl },
     ]);
